@@ -86,8 +86,8 @@
   <xsl:text>&newl;&newl;</xsl:text>
   <!-- the log message -->
   <xsl:apply-templates select="msg" />
-  <!-- another two newlines -->
-  <xsl:text>&newl;&newl;</xsl:text>
+  <!-- add an empty line -->
+  <xsl:text>&newl;</xsl:text>
  </xsl:template>
 
  <!-- format date -->
@@ -105,12 +105,12 @@
 
  <!-- format log message -->
  <xsl:template match="msg">
-  <!-- first line is indented (other indents are done in wrap template) -->
-  <xsl:text>&tab;*&space;</xsl:text>
   <!-- get paths string -->
   <xsl:variable name="paths">
    <xsl:apply-templates select="../paths" />
   </xsl:variable>
+  <!-- first line is indented (other indents are done in wrap template) -->
+  <xsl:text>&tab;*&space;</xsl:text>
   <!-- print the paths and message nicely wrapped -->
   <xsl:call-template name="wrap">
    <xsl:with-param name="txt" select="concat($paths,': ',normalize-space(.))" />
@@ -125,6 +125,7 @@
    <xsl:if test="not(position()=1)">
     <xsl:text>,&space;</xsl:text>
    </xsl:if>
+   <!-- print the path name -->
    <xsl:apply-templates select="."/>
   </xsl:for-each>
  </xsl:template>
@@ -195,6 +196,8 @@
    <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
     <!-- this is easy, nothing to do -->
     <xsl:value-of select="$txt" />
+    <!-- add newline -->
+    <xsl:text>&newl;</xsl:text>
    </xsl:when>
    <xsl:otherwise>
     <!-- find the first line -->
