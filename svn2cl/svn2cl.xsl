@@ -72,7 +72,7 @@
  <xsl:param name="strip-prefix" select="'/'" />
 
  <!-- the length of a line to wrap messages at -->
- <xsl:variable name="linelen" select="75" />
+ <xsl:param name="linelen" select="75" />
 
  <!-- format one entry from the log -->
  <xsl:template match="logentry">
