@@ -50,7 +50,7 @@
    - find a place for revision numbers
    - mark deleted files as such
    - combine paths
-   - make stripping of characters nicer
+   - make path formatting nicer
 -->
 
 <xsl:stylesheet
@@ -114,53 +114,75 @@
   </xsl:call-template>
  </xsl:template>
 
- <!-- present paths nice -->
+ <!-- present a list of paths names -->
  <xsl:template match="paths">
   <xsl:for-each select="path">
    <xsl:sort select="normalize-space(.)" data-type="text" />
+   <!-- unless we are the first entry, add a comma -->
    <xsl:if test="not(position()=1)">
     <xsl:text>,&space;</xsl:text>
    </xsl:if>
-   <xsl:variable name="p1" select="normalize-space(.)" />
-   <xsl:variable name="p2">
-    <xsl:choose>
-     <xsl:when test="starts-with($p1,'/')">
-      <xsl:value-of select="substring($p1,2)" />
-     </xsl:when>
-     <xsl:otherwise>
-      <xsl:value-of select="$p1" />
-     </xsl:otherwise>
-    </xsl:choose>
-   </xsl:variable>
-   <xsl:variable name="p3">
-    <xsl:choose>
-     <xsl:when test="starts-with($p2,$strip-prefix)">
-      <xsl:value-of select="substring($p2,1+string-length($strip-prefix))" />
-     </xsl:when>
-     <xsl:otherwise>
-      <xsl:value-of select="$p2" />
-     </xsl:otherwise>
-    </xsl:choose>
-   </xsl:variable>
-   <xsl:variable name="p4">
-    <xsl:choose>
-     <xsl:when test="starts-with($p3,'/')">
-      <xsl:value-of select="substring($p3,2)" />
-     </xsl:when>
-     <xsl:otherwise>
-      <xsl:value-of select="$p3" />
-     </xsl:otherwise>
-    </xsl:choose>
-   </xsl:variable>
+   <xsl:apply-templates select="."/>
+  </xsl:for-each>
+ </xsl:template>
+
+ <!-- transform path to something properties -->
+ <xsl:template match="path">
+  <!-- fetch the pathname -->
+  <xsl:variable name="p1" select="normalize-space(.)" />
+  <!-- strip leading slash -->
+  <xsl:variable name="p2">
    <xsl:choose>
-    <xsl:when test="$p4 = ''">
-     <xsl:value-of select="'.'" />
+    <xsl:when test="starts-with($p1,'/')">
+     <xsl:value-of select="substring($p1,2)" />
     </xsl:when>
     <xsl:otherwise>
-     <xsl:value-of select="$p4" />
+     <xsl:value-of select="$p1" />
     </xsl:otherwise>
    </xsl:choose>
-  </xsl:for-each>
+  </xsl:variable>
+  <!-- strip trailing slash from strip-prefix -->
+  <xsl:variable name="sp">
+   <xsl:choose>
+    <xsl:when test="substring($strip-prefix,string-length($strip-prefix),1)='/'">
+     <xsl:value-of select="substring($strip-prefix,1,string-length($strip-prefix)-1)" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:value-of select="$strip-prefix" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:variable>
+  <!-- strip strip-prefix -->
+  <xsl:variable name="p3">
+   <xsl:choose>
+    <xsl:when test="starts-with($p2,$sp)">
+     <xsl:value-of select="substring($p2,1+string-length($sp))" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:value-of select="$p2" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:variable>
+  <!-- strip another slash -->
+  <xsl:variable name="p4">
+   <xsl:choose>
+    <xsl:when test="starts-with($p3,'/')">
+     <xsl:value-of select="substring($p3,2)" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:value-of select="$p3" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:variable>
+  <!-- translate empty string to dot -->
+  <xsl:choose>
+   <xsl:when test="$p4 = ''">
+    <xsl:text>.</xsl:text>
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="$p4" />
+   </xsl:otherwise>
+  </xsl:choose>
  </xsl:template>
 
  <!-- string-wrapping template -->
