@@ -9,7 +9,7 @@
    that I was not completely happy with and some other common
    xslt constructs found on the web.
 
-   Copyright (C) 2004 Arthur de Jong.
+   Copyright (C) 2004, 2005 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -37,6 +37,12 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
+
+<!DOCTYPE page [
+ <!ENTITY tab "&#9;">
+ <!ENTITY newl "&#13;">
+ <!ENTITY space "&#32;">
+]>
 
 <!--
    TODO
@@ -70,26 +76,22 @@
   <!-- date -->
   <xsl:apply-templates select="date" />
   <!-- two spaces -->
-  <xsl:text>  </xsl:text>
+  <xsl:text>&space;&space;</xsl:text>
   <!-- author's name -->
   <xsl:apply-templates select="author" />
   <!-- two newlines -->
-  <xsl:text>
-
-</xsl:text>
+  <xsl:text>&newl;&newl;</xsl:text>
   <!-- the log message -->
   <xsl:apply-templates select="msg" />
   <!-- another two newlines -->
-  <xsl:text>
-
-</xsl:text>
+  <xsl:text>&newl;&newl;</xsl:text>
  </xsl:template>
 
  <!-- format date -->
  <xsl:template match="date">
   <xsl:variable name="date" select="normalize-space(.)" />
   <xsl:value-of select="substring($date,1,10)" />
-  <xsl:text> </xsl:text>
+  <xsl:text>&space;</xsl:text>
   <xsl:value-of select="substring($date,12,5)" />
  </xsl:template>
 
@@ -101,7 +103,7 @@
  <!-- format log message -->
  <xsl:template match="msg">
   <!-- first line is indented (other indents are done in wrap template) -->
-  <xsl:text>	* </xsl:text>
+  <xsl:text>&tab;*&space;</xsl:text>
   <!-- get paths string -->
   <xsl:variable name="paths">
    <xsl:apply-templates select="../paths" />
@@ -117,7 +119,7 @@
   <xsl:for-each select="path">
    <xsl:sort select="normalize-space(.)" data-type="text" />
    <xsl:if test="not(position()=1)">
-    <xsl:text>, </xsl:text>
+    <xsl:text>,&space;</xsl:text>
    </xsl:if>
    <xsl:variable name="p1" select="normalize-space(.)" />
    <xsl:variable name="p2">
@@ -185,10 +187,9 @@
       </xsl:otherwise>
      </xsl:choose>
     </xsl:variable>
-    <!-- print line and newline -->
+    <!-- print newline and tab -->
     <xsl:value-of select="$line" />
-    <xsl:text>
-	  </xsl:text>
+    <xsl:text>&newl;&tab;&space;&space;</xsl:text>
     <!-- wrap the rest of the text -->
     <xsl:call-template name="wrap">
      <xsl:with-param name="txt" select="normalize-space(substring($txt,string-length($line)+1))" />
