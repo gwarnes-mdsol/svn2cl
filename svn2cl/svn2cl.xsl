@@ -71,6 +71,9 @@
  <!-- the prefix of pathnames to strip -->
  <xsl:param name="strip-prefix" select="'/'" />
 
+ <!-- the length of a line to wrap messages at -->
+ <xsl:variable name="linelen" select="75" />
+
  <!-- format one entry from the log -->
  <xsl:template match="logentry">
   <!-- date -->
@@ -188,15 +191,14 @@
  <!-- string-wrapping template -->
  <xsl:template name="wrap">
   <xsl:param name="txt" />
-  <xsl:variable name="linelen" select="67" />
   <xsl:choose>
-   <xsl:when test="(string-length($txt) &lt; $linelen) or not(contains($txt,' '))">
+   <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
     <!-- this is easy, nothing to do -->
     <xsl:value-of select="$txt" />
    </xsl:when>
    <xsl:otherwise>
     <!-- find the first line -->
-    <xsl:variable name="tmp" select="substring($txt,1,$linelen)" />
+    <xsl:variable name="tmp" select="substring($txt,1,(($linelen)-10))" />
     <xsl:variable name="line">
      <xsl:choose>
       <xsl:when test="contains($tmp,' ')">
