@@ -143,7 +143,7 @@
   <!-- output date part -->
   <xsl:value-of select="substring($date,1,10)" />
   <!-- output time part -->
-  <xsl:if test="$groupbyday='yes'">
+  <xsl:if test="$groupbyday!='yes'">
    <xsl:text>&space;</xsl:text>
    <xsl:value-of select="substring($date,12,5)" />
   </xsl:if>
