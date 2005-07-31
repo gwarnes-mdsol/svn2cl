@@ -82,7 +82,7 @@
  <xsl:param name="linelen" select="75" />
  
  <!-- whether entries should be grouped by day -->
- <xsl:param name="groupbyday" select="''" />
+ <xsl:param name="groupbyday" select="'no'" />
 
  <!-- add newlines at the end of the changelog -->
  <xsl:template match="log">
@@ -143,7 +143,7 @@
   <!-- output date part -->
   <xsl:value-of select="substring($date,1,10)" />
   <!-- output time part -->
-  <xsl:if test="$groupbyday=''">
+  <xsl:if test="$groupbyday='yes'">
    <xsl:text>&space;</xsl:text>
    <xsl:value-of select="substring($date,12,5)" />
   </xsl:if>
