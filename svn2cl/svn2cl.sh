@@ -44,6 +44,7 @@ INCLUDEREV="no"
 CHANGELOG="ChangeLog"
 
 # do command line checking
+prog=`basename $0`
 while [ -n "$1" ]
 do
   case "$1" in
@@ -64,7 +65,7 @@ do
       shift
       ;;
     -V|--version)
-      echo "$0 $VERSION";
+      echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
       echo ""
       echo "Copyright (C) 2005 Arthur de Jong."
@@ -73,7 +74,7 @@ do
       exit 0
       ;;
     -h|--help)
-      echo "Usage: $0 [OPTION]..."
+      echo "Usage: $prog [OPTION]..."
       echo "Generate a ChangeLog from a checked out subversion repository."
       echo ""
       echo "  --strip-prefix NAME  prefix to strip from all entries, defaults"
@@ -86,8 +87,8 @@ do
       exit 0
       ;;
     *)
-      echo "$0: invalid option -- $1"
-      echo "Try \`$0 --help' for more information."
+      echo "$prog: invalid option -- $1"
+      echo "Try \`$prog --help' for more information."
       exit 1
       ;;
   esac
