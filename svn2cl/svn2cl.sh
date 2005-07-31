@@ -37,7 +37,6 @@ set -e
 VERSION="0.2"
 
 # set default parameters
-XSL=svn2cl.xsl
 STRIPPREFIX=`basename $(pwd)`
 LINELEN=75
 GROUPBYDAY="no"
@@ -93,6 +92,16 @@ do
       ;;
   esac
 done
+
+# find the directory that this script resides in
+prog="$0"
+while [ -h "$prog" ]
+do
+  prog=`ls -ld "$prog" | sed "s/^.*-> \(.*\)/\1/;/^[^/]/s,^,$(dirname "$prog")/,"`
+done
+dir=`dirname $prog`
+dir=`cd $dir && pwd`
+XSL="$dir/svn2cl.xsl"
 
 # actually run the command we need
 svn --verbose --xml log | \
