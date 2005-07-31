@@ -5,6 +5,13 @@
    svn2cl.xsl - xslt stylesheet for converting svn log to a normal
                 changelog
 
+   Usage (replace ++ with two minus signs):
+     svn ++verbose ++xml log | \
+       xsltproc ++stringparam strip-prefix `dirname pwd` \
+                ++stringparam linelen 75 \
+                ++stringparam groupbyday yes \
+                svn2cl.xsl - > ChangeLog
+
    This file is based on several implementations of this conversion
    that I was not completely happy with and some other common
    xslt constructs found on the web.
@@ -73,48 +80,78 @@
 
  <!-- the length of a line to wrap messages at -->
  <xsl:param name="linelen" select="75" />
+ 
+ <!-- whether entries should be grouped by day -->
+ <xsl:param name="groupbyday" select="''" />
 
- <!-- format one entry from the log -->
- <xsl:template match="logentry">
-  <!-- date -->
-  <xsl:apply-templates select="date" />
-  <!-- two spaces -->
-  <xsl:text>&space;&space;</xsl:text>
-  <!-- author's name -->
-  <xsl:apply-templates select="author" />
-  <!-- two newlines -->
-  <xsl:text>&newl;&newl;</xsl:text>
-  <!-- the log message -->
-  <xsl:apply-templates select="msg" />
-  <!-- add an empty line -->
+ <!-- add newlines at the end of the changelog -->
+ <xsl:template match="log">
+  <xsl:apply-templates/>
   <xsl:text>&newl;</xsl:text>
  </xsl:template>
 
- <!-- format date -->
- <xsl:template match="date">
-  <xsl:variable name="date" select="normalize-space(.)" />
-  <xsl:value-of select="substring($date,1,10)" />
-  <xsl:text>&space;</xsl:text>
-  <xsl:value-of select="substring($date,12,5)" />
- </xsl:template>
-
- <!-- format author -->
- <xsl:template match="author">
-  <xsl:value-of select="normalize-space(.)" />
- </xsl:template>
-
- <!-- format log message -->
- <xsl:template match="msg">
+ <!-- format one entry from the log -->
+ <xsl:template match="logentry">
+  <!-- save log entry number -->
+  <xsl:variable name="pos" select="position()"/>
+  <!-- fetch previous entry's date -->
+  <xsl:variable name="prevdate">
+   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date"/>
+  </xsl:variable>
+  <!-- fetch previous entry's author -->
+  <xsl:variable name="prevauthor">
+   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/author"/>
+  </xsl:variable>
+  <!-- fetch this entry's date -->
+  <xsl:variable name="date">
+   <xsl:apply-templates select="date" />
+  </xsl:variable>
+  <!-- fetch this entry's author -->
+  <xsl:variable name="author">
+   <xsl:apply-templates select="author" />
+  </xsl:variable>
+  <!-- check if header is changed -->
+  <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
+   <!-- add newline -->
+   <xsl:if test="not(position()=1)">
+     <xsl:text>&newl;</xsl:text>
+   </xsl:if>
+   <!-- date -->
+   <xsl:apply-templates select="date" />
+   <!-- two spaces -->
+   <xsl:text>&space;&space;</xsl:text>
+   <!-- author's name -->
+   <xsl:apply-templates select="author" />
+   <!-- two newlines -->
+   <xsl:text>&newl;&newl;</xsl:text>
+  </xsl:if>
   <!-- get paths string -->
   <xsl:variable name="paths">
-   <xsl:apply-templates select="../paths" />
+   <xsl:apply-templates select="paths" />
   </xsl:variable>
   <!-- first line is indented (other indents are done in wrap template) -->
   <xsl:text>&tab;*&space;</xsl:text>
   <!-- print the paths and message nicely wrapped -->
   <xsl:call-template name="wrap">
-   <xsl:with-param name="txt" select="concat($paths,': ',normalize-space(.))" />
+   <xsl:with-param name="txt" select="concat($paths,normalize-space(msg))" />
   </xsl:call-template>
+ </xsl:template>
+
+ <!-- format date -->
+ <xsl:template match="date">
+  <xsl:variable name="date" select="normalize-space(.)" />
+  <!-- output date part -->
+  <xsl:value-of select="substring($date,1,10)" />
+  <!-- output time part -->
+  <xsl:if test="$groupbyday=''">
+   <xsl:text>&space;</xsl:text>
+   <xsl:value-of select="substring($date,12,5)" />
+  </xsl:if>
+ </xsl:template>
+
+ <!-- format author -->
+ <xsl:template match="author">
+  <xsl:value-of select="normalize-space(.)" />
  </xsl:template>
 
  <!-- present a list of paths names -->
@@ -128,9 +165,11 @@
    <!-- print the path name -->
    <xsl:apply-templates select="."/>
   </xsl:for-each>
+  <!-- end the list with a colon -->
+  <xsl:text>:&space;</xsl:text>
  </xsl:template>
 
- <!-- transform path to something properties -->
+ <!-- transform path to something printable -->
  <xsl:template match="path">
   <!-- fetch the pathname -->
   <xsl:variable name="p1" select="normalize-space(.)" />
@@ -163,6 +202,7 @@
      <xsl:value-of select="substring($p2,1+string-length($sp))" />
     </xsl:when>
     <xsl:otherwise>
+     <!-- TODO: do not print strings that do not begin with strip-prefix -->
      <xsl:value-of select="$p2" />
     </xsl:otherwise>
    </xsl:choose>
