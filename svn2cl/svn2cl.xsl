@@ -7,9 +7,10 @@
 
    Usage (replace ++ with two minus signs):
      svn ++verbose ++xml log | \
-       xsltproc ++stringparam strip-prefix `dirname pwd` \
+       xsltproc ++stringparam strip-prefix `basename $(pwd)` \
                 ++stringparam linelen 75 \
                 ++stringparam groupbyday yes \
+                ++stringparam include-rev yes \
                 svn2cl.xsl - > ChangeLog
 
    This file is based on several implementations of this conversion
@@ -84,6 +85,9 @@
  <!-- whether entries should be grouped by day -->
  <xsl:param name="groupbyday" select="'no'" />
 
+ <!-- whether entries should be grouped by day -->
+ <xsl:param name="include-rev" select="'no'" />
+
  <!-- add newlines at the end of the changelog -->
  <xsl:template match="log">
   <xsl:apply-templates/>
@@ -129,11 +133,19 @@
   <xsl:variable name="paths">
    <xsl:apply-templates select="paths" />
   </xsl:variable>
+  <!-- get revision number -->
+  <xsl:variable name="rev">
+   <xsl:if test="$include-rev='yes'">
+    <xsl:text>[r</xsl:text>
+    <xsl:value-of select="@revision"/>
+    <xsl:text>]&space;</xsl:text>
+   </xsl:if>
+  </xsl:variable>
   <!-- first line is indented (other indents are done in wrap template) -->
   <xsl:text>&tab;*&space;</xsl:text>
   <!-- print the paths and message nicely wrapped -->
   <xsl:call-template name="wrap">
-   <xsl:with-param name="txt" select="concat($paths,normalize-space(msg))" />
+   <xsl:with-param name="txt" select="concat($rev,$paths,normalize-space(msg))" />
   </xsl:call-template>
  </xsl:template>
 
