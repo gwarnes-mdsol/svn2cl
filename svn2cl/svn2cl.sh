@@ -60,7 +60,7 @@ do
       GROUPBYDAY="yes";
       shift
       ;;
-    --include-rev)
+    -r|--include-rev)
       INCLUDEREV="yes";
       shift
       ;;
@@ -81,7 +81,7 @@ do
       echo "                       to the name of the current directory"
       echo "  --linelen NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
-      echo "  --include-rev        include revision numbers"
+      echo "  -r, --include-rev    include revision numbers"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
       exit 0
