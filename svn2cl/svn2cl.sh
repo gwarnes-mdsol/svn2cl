@@ -64,6 +64,14 @@ do
       INCLUDEREV="yes";
       shift
       ;;
+    -o|--output)
+      CHANGELOG="$2"
+      shift 2
+      ;;
+    --stdout)
+      CHANGELOG="-"
+      shift
+      ;;
     -V|--version)
       echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
@@ -82,6 +90,9 @@ do
       echo "  --linelen NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
       echo "  -r, --include-rev    include revision numbers"
+      echo "  -o, --output FILE    output to FILE instead of ChangeLog"
+      echo "  -f, --file FILE      alias for -o, --output"
+      echo "  --stdout             output to stdout instead of ChangeLog"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
       exit 0
@@ -104,10 +115,16 @@ dir=`dirname $prog`
 dir=`cd $dir && pwd`
 XSL="$dir/svn2cl.xsl"
 
+# redirect stdout to the changelog file if needed
+if [ "x$CHANGELOG" != "x-" ]
+then
+  exec > "$CHANGELOG"
+fi
+
 # actually run the command we need
 svn --verbose --xml log | \
   xsltproc --stringparam strip-prefix "$STRIPPREFIX" \
            --stringparam linelen $LINELEN \
            --stringparam groupbyday $GROUPBYDAY \
            --stringparam include-rev $INCLUDEREV \
-           "$XSL" - > "$CHANGELOG"
+           "$XSL" -
