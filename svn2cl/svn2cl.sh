@@ -34,7 +34,7 @@
 set -e
 
 # svn2cl version
-VERSION="0.2"
+VERSION="0.3"
 
 # set default parameters
 STRIPPREFIX=`basename $(pwd)`
