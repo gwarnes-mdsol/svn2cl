@@ -5,7 +5,8 @@
    svn2cl.xsl - xslt stylesheet for converting svn log to a normal
                 changelog
 
-   Usage (replace ++ with two minus signs):
+   Usage (replace ++ with two minus signs which aren't allowed
+   inside xml comments):
      svn ++verbose ++xml log | \
        xsltproc ++stringparam strip-prefix `basename $(pwd)` \
                 ++stringparam linelen 75 \
