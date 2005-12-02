@@ -68,7 +68,7 @@
 
  <xsl:output
    method="text"
-   encoding="iso-8859-15"
+   encoding="utf-8"
    media-type="text/plain"
    omit-xml-declaration="yes"
    standalone="yes"
