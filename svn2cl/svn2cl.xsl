@@ -123,6 +123,7 @@
   <!-- get paths string -->
   <xsl:variable name="paths">
    <xsl:apply-templates select="paths" />
+   <xsl:text>:&space;</xsl:text>
   </xsl:variable>
   <!-- get revision number -->
   <xsl:variable name="rev">
@@ -168,8 +169,6 @@
    <!-- print the path name -->
    <xsl:apply-templates select="." />
   </xsl:for-each>
-  <!-- end the list with a colon -->
-  <xsl:text>:&space;</xsl:text>
  </xsl:template>
 
  <!-- transform path to something printable -->
