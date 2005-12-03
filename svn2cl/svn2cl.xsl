@@ -53,15 +53,6 @@
  <!ENTITY space "&#32;">
 ]>
 
-<!--
-   TODO
-   - make external lookups of author names possible
-   - find a place for revision numbers
-   - mark deleted files as such
-   - combine paths
-   - make path formatting nicer
--->
-
 <xsl:stylesheet
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
