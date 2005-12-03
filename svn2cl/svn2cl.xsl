@@ -97,14 +97,14 @@
  <!-- format one entry from the log -->
  <xsl:template match="logentry">
   <!-- save log entry number -->
-  <xsl:variable name="pos" select="position()"/>
+  <xsl:variable name="pos" select="position()" />
   <!-- fetch previous entry's date -->
   <xsl:variable name="prevdate">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date"/>
+   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
   </xsl:variable>
   <!-- fetch previous entry's author -->
   <xsl:variable name="prevauthor">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/author"/>
+   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/author" />
   </xsl:variable>
   <!-- fetch this entry's date -->
   <xsl:variable name="date">
@@ -137,7 +137,7 @@
   <xsl:variable name="rev">
    <xsl:if test="$include-rev='yes'">
     <xsl:text>[r</xsl:text>
-    <xsl:value-of select="@revision"/>
+    <xsl:value-of select="@revision" />
     <xsl:text>]&space;</xsl:text>
    </xsl:if>
   </xsl:variable>
@@ -175,7 +175,7 @@
     <xsl:text>,&space;</xsl:text>
    </xsl:if>
    <!-- print the path name -->
-   <xsl:apply-templates select="."/>
+   <xsl:apply-templates select="." />
   </xsl:for-each>
   <!-- end the list with a colon -->
   <xsl:text>:&space;</xsl:text>
