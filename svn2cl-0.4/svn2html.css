@@ -1,0 +1,45 @@
+body {
+  background-color: white;
+}
+
+ul.changelog_entries {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+li.changelog_entry {
+  list-style-type: none;
+  margin-left: 0px;
+  padding-left: 0px;
+  margin-top: 0.8em;
+}
+
+li.changelog_change {
+  margin-left: 4em;
+}
+
+span.changelog_date {
+  color: #22aa22;
+}
+
+span.changelog_author {
+  color: #2222aa;
+}
+
+.changelog_revision {
+  font-size: 50%;
+  color: #aa22aa;
+}
+
+.changelog_files {
+  font-size: 50%;
+  color: #aaaa22;
+}
+
+.changelog_files:after {
+  content: ':';
+}
+
+.changelog_message {
+  color: #aa2222;
+}

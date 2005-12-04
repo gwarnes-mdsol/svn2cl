@@ -1,0 +1,6 @@
+- support handling of authors.xml file
+- remove paths that do not have the specified prefix
+- add manual page
+- flag deleted files (<path action="D"...>)
+- look at more command line compatibility with cvs2cl (e.g. -r, --revisions, --show-dead, --no-wrap, --hide-filenames, --lines-modified)
+- preserve line breaks in log message (except trailing newlines)
