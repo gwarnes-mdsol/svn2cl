@@ -51,7 +51,7 @@ do
   case "$1" in
     --strip-prefix)
       STRIPPREFIX="$2"
-      shift 2
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --strip-prefix=*)
       STRIPPREFIX="`echo "$1" | sed 's/--strip-prefix=//'`"
@@ -59,7 +59,7 @@ do
       ;;
     --linelen)
       LINELEN="$2";
-      shift 2
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --linelen=*)
       LINELEN="`echo "$1" | sed 's/--linelen=//'`"
@@ -75,7 +75,7 @@ do
       ;;
     -f|--file|-o|--output)
       CHANGELOG="$2"
-      shift 2
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --file=*|--output=*)
       CHANGELOG="`echo "$1" | sed 's/--[^=]*=//'`"
@@ -88,7 +88,7 @@ do
     -r|--revision|--targets|--username|--password|--config-dir|--limit)
       # add these as extra options to the command (with argument)
       SVNCMD="$SVNCMD $1 '`echo "$2" | sed "s/'/'"'"'"'"'"'"'/g"`'"
-      shift 2
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --revision=*|--targets=*|--username=*|--password=*|--config-dir=*|--limit=*)
       # these are single argument versions of the above
