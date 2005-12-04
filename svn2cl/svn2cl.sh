@@ -52,9 +52,17 @@ do
       STRIPPREFIX="$2"
       shift 2
       ;;
+    --strip-prefix=*)
+      STRIPPREFIX="`echo "$1" | sed 's/--strip-prefix=//'`"
+      shift
+      ;;
     --linelen)
       LINELEN="$2";
       shift 2
+      ;;
+    --linelen=*)
+      LINELEN="`echo "$1" | sed 's/--linelen=//'`"
+      shift
       ;;
     --group-by-day)
       GROUPBYDAY="yes";
@@ -67,6 +75,10 @@ do
     -f|--file|-o|--output)
       CHANGELOG="$2"
       shift 2
+      ;;
+    --file=*|--output=*)
+      CHANGELOG="`echo "$1" | sed 's/--[^=]*=//'`"
+      shift
       ;;
     --stdout)
       CHANGELOG="-"
