@@ -42,6 +42,7 @@ LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
 CHANGELOG="ChangeLog"
+SVNCMD="svn --verbose --xml log"
 
 # do command line checking
 prog=`basename $0`
@@ -68,7 +69,7 @@ do
       GROUPBYDAY="yes";
       shift
       ;;
-    -r|--include-rev)
+    -i|--include-rev)
       INCLUDEREV="yes";
       shift
       ;;
@@ -84,6 +85,21 @@ do
       CHANGELOG="-"
       shift
       ;;
+    -r|--revision|--targets|--username|--password|--config-dir|--limit)
+      # add these as extra options to the command (with argument)
+      SVNCMD="$SVNCMD $1 '`echo "$2" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      shift 2
+      ;;
+    --revision=*|--targets=*|--username=*|--password=*|--config-dir=*|--limit=*)
+      # these are single argument versions of the above
+      SVNCMD="$SVNCMD '`echo "$1" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      shift
+      ;;
+    --stop-on-copy|--no-auth-cache|--non-interactive)
+      # add these as simple options
+      SVNCMD="$SVNCMD $1"
+      shift
+      ;;
     -V|--version)
       echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
@@ -94,25 +110,34 @@ do
       exit 0
       ;;
     -h|--help)
-      echo "Usage: $prog [OPTION]..."
+      echo "Usage: $prog [OPTION]... [PATH]..."
       echo "Generate a ChangeLog from a checked out subversion repository."
       echo ""
-      echo "  --strip-prefix NAME  prefix to strip from all entries, defaults"
+      echo "  --strip-prefix=NAME  prefix to strip from all entries, defaults"
       echo "                       to the name of the current directory"
-      echo "  --linelen NUM        maximum length of an output line"
+      echo "  --linelen=NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
-      echo "  -r, --include-rev    include revision numbers"
-      echo "  -o, --output FILE    output to FILE instead of ChangeLog"
-      echo "  -f, --file FILE      alias for -o, --output"
+      echo "  -i, --include-rev    include revision numbers"
+      echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
+      echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
+      echo ""
+      echo "PATH arguments and the following options are passed to the svn log"
+      echo "command: -r, --revision, --target --stop-on-copy, --username,"
+      echo "--password, --no-auth-cache, --non-interactive, --config-dir,"
+      echo "--limit (see \`svn help log' for more information)."
       exit 0
       ;;
-    *)
+    -*)
       echo "$prog: invalid option -- $1"
       echo "Try \`$prog --help' for more information."
       exit 1
+      ;;
+    *)
+      SVNCMD="$SVNCMD '`echo "$1" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      shift
       ;;
   esac
 done
@@ -134,7 +159,7 @@ then
 fi
 
 # actually run the command we need
-svn --verbose --xml log | \
+eval "$SVNCMD" | \
   xsltproc --stringparam strip-prefix "$STRIPPREFIX" \
            --stringparam linelen $LINELEN \
            --stringparam groupbyday $GROUPBYDAY \
