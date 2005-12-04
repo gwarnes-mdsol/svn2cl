@@ -64,7 +64,7 @@ do
       INCLUDEREV="yes";
       shift
       ;;
-    -o|--output)
+    -f|--file|-o|--output)
       CHANGELOG="$2"
       shift 2
       ;;
