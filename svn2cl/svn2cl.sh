@@ -41,7 +41,8 @@ STRIPPREFIX=`basename $(pwd)`
 LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
-CHANGELOG="ChangeLog"
+CHANGELOG=""
+OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
 
 # do command line checking
@@ -83,6 +84,10 @@ do
       ;;
     --stdout)
       CHANGELOG="-"
+      shift
+      ;;
+    --html)
+      OUTSTYLE="html"
       shift
       ;;
     -r|--revision|--targets|--username|--password|--config-dir|--limit)
@@ -150,7 +155,14 @@ do
 done
 dir=`dirname $prog`
 dir=`cd $dir && pwd`
-XSL="$dir/svn2cl.xsl"
+XSL="$dir/svn2${OUTSTYLE}.xsl"
+
+# if no filename was specified, make one up
+if [ -z "$CHANGELOG" ]
+then
+  CHANGELOG="ChangeLog"
+  [ "$OUTSTYLE" != "cl" ] && CHANGELOG="$CHANGELOG.$OUTSTYLE"
+fi
 
 # redirect stdout to the changelog file if needed
 if [ "x$CHANGELOG" != "x-" ]
