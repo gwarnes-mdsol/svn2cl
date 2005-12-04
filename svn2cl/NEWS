@@ -1,0 +1,23 @@
+chnages from 0.3 to 0.4
+-----------------------
+
+* added NEWS and TODO files
+* support for passing options to svn log command
+* prelimenary support for generating an html version of the ChangeLog
+  (copy css file manually)
+* switch encoding of generated files to utf-8
+* better command option handling
+
+changes from 0.2 to 0.3
+-----------------------
+
+* added short equivalents for some commonly used command line options
+* write the changelog to a different file or to stdout
+
+changes from 0.1 to 0.2
+-----------------------
+
+* support grouping entries per day
+* support for adding revision numbers in the log
+* line length is configurable
+* a wrapper shell script
