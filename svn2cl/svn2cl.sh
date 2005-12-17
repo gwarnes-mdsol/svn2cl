@@ -126,6 +126,7 @@ do
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
+      echo "  --html               output as html instead of plain text"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
       echo ""
