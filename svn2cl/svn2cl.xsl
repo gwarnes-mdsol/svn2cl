@@ -133,11 +133,17 @@
     <xsl:text>]&space;</xsl:text>
    </xsl:if>
   </xsl:variable>
+  <!-- trim trailing newlines -->
+  <xsl:variable name="msg">
+   <xsl:call-template name="trim-newln">
+    <xsl:with-param name="txt" select="msg" />
+   </xsl:call-template>
+  </xsl:variable>
   <!-- first line is indented (other indents are done in wrap template) -->
   <xsl:text>&tab;*&space;</xsl:text>
   <!-- print the paths and message nicely wrapped -->
   <xsl:call-template name="wrap">
-   <xsl:with-param name="txt" select="concat($rev,$paths,normalize-space(msg))" />
+   <xsl:with-param name="txt" select="concat($rev,$paths,$msg)" />
   </xsl:call-template>
  </xsl:template>
 
@@ -235,6 +241,18 @@
  <xsl:template name="wrap">
   <xsl:param name="txt" />
   <xsl:choose>
+   <xsl:when test="contains($txt,'&#xa;')">
+     <!-- text contains newlines, do the first line -->
+     <xsl:call-template name="wrap">
+      <xsl:with-param name="txt" select="substring-before($txt,'&#xa;')" />
+     </xsl:call-template>
+     <!-- print tab -->
+     <xsl:text>&tab;&space;&space;</xsl:text>
+     <!-- wrap the rest of the text -->
+     <xsl:call-template name="wrap">
+      <xsl:with-param name="txt" select="substring-after($txt,'&#xa;')" />
+     </xsl:call-template>
+   </xsl:when>
    <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
     <!-- this is easy, nothing to do -->
     <xsl:value-of select="$txt" />
@@ -261,7 +279,7 @@
     <xsl:text>&newl;&tab;&space;&space;</xsl:text>
     <!-- wrap the rest of the text -->
     <xsl:call-template name="wrap">
-     <xsl:with-param name="txt" select="normalize-space(substring($txt,string-length($line)+1))" />
+     <xsl:with-param name="txt" select="substring($txt,string-length($line)+1)" />
     </xsl:call-template>
    </xsl:otherwise>
   </xsl:choose>
@@ -272,12 +290,35 @@
   <xsl:param name="txt" />
   <xsl:choose>
    <xsl:when test="substring($txt,string-length($txt),1) = ' '">
-    <xsl:value-of select="normalize-space($txt)" />
+    <xsl:value-of select="$txt" />
    </xsl:when>
    <xsl:otherwise>
     <xsl:call-template name="find-line">
      <xsl:with-param name="txt" select="substring($txt,1,string-length($txt)-1)" />
     </xsl:call-template>
+   </xsl:otherwise>
+  </xsl:choose>
+ </xsl:template>
+
+ <!-- template to trim trailing and starting newlines -->
+ <xsl:template name="trim-newln">
+  <xsl:param name="txt" />
+  <xsl:choose>
+   <!-- find starting newlines -->
+   <xsl:when test="substring($txt,1,1) = '&#xa;'">
+    <xsl:call-template name="trim-newln">
+     <xsl:with-param name="txt" select="substring($txt,2)" />
+    </xsl:call-template>
+   </xsl:when>
+   <!-- find trailing newlines -->
+   <xsl:when test="substring($txt,string-length($txt),1) = '&#xa;'">
+    <xsl:call-template name="trim-newln">
+     <xsl:with-param name="txt" select="substring($txt,1,string-length($txt)-1)" />
+    </xsl:call-template>
+   </xsl:when>
+   <!-- no newlines found, we're done -->
+   <xsl:otherwise>
+    <xsl:value-of select="$txt" />
    </xsl:otherwise>
   </xsl:choose>
  </xsl:template>
