@@ -1,3 +1,11 @@
+changes from 0.4 to 0.5
+-----------------------
+
+* preserve line breaks in svn log messages
+* added manual page for shellscript wrapper
+* wrapper script portability improvements
+* documentation and --help output fixes and improvements
+
 changes from 0.3 to 0.4
 -----------------------
 
