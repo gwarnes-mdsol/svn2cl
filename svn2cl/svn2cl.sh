@@ -116,7 +116,7 @@ do
       ;;
     -h|--help)
       echo "Usage: $prog [OPTION]... [PATH]..."
-      echo "Generate a ChangeLog from a checked out subversion repository."
+      echo "Generate a ChangeLog from a subversion repository."
       echo ""
       echo "  --strip-prefix=NAME  prefix to strip from all entries, defaults"
       echo "                       to the name of the current directory"
