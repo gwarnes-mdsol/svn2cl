@@ -32,12 +32,15 @@
 
 # exit on any failures
 set -e
+# report unset variables
+set -u
 
 # svn2cl version
 VERSION="0.4"
 
 # set default parameters
-STRIPPREFIX=`basename $(pwd)`
+PWD=`pwd`
+STRIPPREFIX=`basename $PWD`
 LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
@@ -47,7 +50,7 @@ SVNCMD="svn --verbose --xml log"
 
 # do command line checking
 prog=`basename $0`
-while [ -n "$1" ]
+while [ $# -gt 0 ]
 do
   case "$1" in
     --strip-prefix)
@@ -92,12 +95,14 @@ do
       ;;
     -r|--revision|--targets|--username|--password|--config-dir|--limit)
       # add these as extra options to the command (with argument)
-      SVNCMD="$SVNCMD $1 '`echo "$2" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      arg=`echo "$2" | sed "s/'/'\"'\"'/g"`
+      SVNCMD="$SVNCMD $1 '$arg'"
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --revision=*|--targets=*|--username=*|--password=*|--config-dir=*|--limit=*)
       # these are single argument versions of the above
-      SVNCMD="$SVNCMD '`echo "$1" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
+      SVNCMD="$SVNCMD '$arg'"
       shift
       ;;
     --stop-on-copy|--no-auth-cache|--non-interactive)
@@ -142,7 +147,8 @@ do
       exit 1
       ;;
     *)
-      SVNCMD="$SVNCMD '`echo "$1" | sed "s/'/'"'"'"'"'"'"'/g"`'"
+      arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
+      SVNCMD="$SVNCMD '$arg'"
       shift
       ;;
   esac
@@ -152,7 +158,8 @@ done
 prog="$0"
 while [ -h "$prog" ]
 do
-  prog=`ls -ld "$prog" | sed "s/^.*-> \(.*\)/\1/;/^[^/]/s,^,$(dirname "$prog")/,"`
+  dir=`dirname "$prog"`
+  prog=`ls -ld "$prog" | sed "s/^.*-> \(.*\)/\1/;/^[^/]/s,^,$dir/,"`
 done
 dir=`dirname $prog`
 dir=`cd $dir && pwd`
