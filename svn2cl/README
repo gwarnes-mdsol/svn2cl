@@ -32,7 +32,7 @@ INTRODUCTION
 ============
 
 svn2cl is a simple xsl transformation and shellscript wrapper for generating a
-clasic GNU-style ChangeLog from a subversion repository log. It is made from
+classic GNU-style ChangeLog from a subversion repository log. It is made from
 several changelog-like scripts using common xslt constructs found in different
 places.
 
@@ -52,8 +52,10 @@ svn2cl.sh script as the script looks for it there (symlinking is ok).
 NOTES
 =====
 
-The log is performed on the curren directory `.' so before generating the
-changelog be sure that the working copy is up to date with a svn update.
+The log is performed on the current directory `.'. So before generating the
+changelog be sure that the working copy is up to date with a svn update
+(non-recursive update will do) or pass --revision HEAD as a parameter to
+svn2cl.sh.
 
 There will not be very frequent new releases but if there are they can be
 found at: http://ch.tudelft.nl/~arthur/svn2cl/
