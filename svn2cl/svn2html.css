@@ -41,5 +41,7 @@ span.changelog_author {
 }
 
 .changelog_message {
+  /* uncomment the following line to put the message on a seporate line */
+  /* display: block; */
   color: #aa2222;
 }
