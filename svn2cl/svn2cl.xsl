@@ -49,7 +49,7 @@
 
 <!DOCTYPE page [
  <!ENTITY tab "&#9;">
- <!ENTITY newl "&#13;">
+ <!ENTITY newl "&#10;">
  <!ENTITY space "&#32;">
 ]>
 
@@ -255,7 +255,7 @@
    </xsl:when>
    <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
     <!-- this is easy, nothing to do -->
-    <xsl:value-of select="$txt" />
+    <xsl:value-of select="normalize-space($txt)" />
     <!-- add newline -->
     <xsl:text>&newl;</xsl:text>
    </xsl:when>
@@ -270,12 +270,12 @@
        </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-       <xsl:value-of select="substring-before($txt,' ')" />
+       <xsl:value-of select="normalize-space(substring-before($txt,' '))" />
       </xsl:otherwise>
      </xsl:choose>
     </xsl:variable>
     <!-- print newline and tab -->
-    <xsl:value-of select="$line" />
+    <xsl:value-of select="normalize-space($line)" />
     <xsl:text>&newl;&tab;&space;&space;</xsl:text>
     <!-- wrap the rest of the text -->
     <xsl:call-template name="wrap">
