@@ -43,8 +43,6 @@
 -->
 
 <!DOCTYPE page [
- <!ENTITY tab "&#9;">
- <!ENTITY newl "&#13;">
  <!ENTITY space "&#32;">
 ]>
 
@@ -110,25 +108,26 @@
   <!-- check if header is changed -->
   <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
    <li class="changelog_entry">
-   <!-- date -->
-   <span class="changelog_date"><xsl:apply-templates select="date" /></span>
-   <xsl:text> </xsl:text>
-   <!-- author's name -->
-   <span class="changelog_author"><xsl:apply-templates select="author" /></span>
+    <!-- date -->
+    <span class="changelog_date"><xsl:apply-templates select="date" /></span>
+    <xsl:text>&space;</xsl:text>
+    <!-- author's name -->
+    <span class="changelog_author"><xsl:apply-templates select="author" /></span>
    </li>
   </xsl:if>
   <!-- entry -->
   <li class="changelog_change">
    <!-- get revision number -->
    <span class="changelog_revision">[r<xsl:value-of select="@revision" />]</span>
-   <xsl:text> </xsl:text>
+   <xsl:text>&space;</xsl:text>
    <!-- get paths string -->
    <span class="changelog_files"><xsl:apply-templates select="paths" /></span>
-   <xsl:text> </xsl:text>
+   <xsl:text>&space;</xsl:text>
    <!-- get message text -->
    <span class="changelog_message">
-    <!-- TODO: translate line breaks to <br /> tags -->
-    <xsl:value-of select="msg" />
+    <xsl:call-template name="wrap">
+     <xsl:with-param name="txt" select="msg" />
+    </xsl:call-template>
    </span>
   </li>
  </xsl:template>
@@ -219,6 +218,26 @@
    </xsl:when>
    <xsl:otherwise>
     <xsl:value-of select="$p4" />
+   </xsl:otherwise>
+  </xsl:choose>
+ </xsl:template>
+
+ <!-- template to replace line breaks with <br/> tags -->
+ <xsl:template name="wrap">
+  <xsl:param name="txt" />
+  <xsl:choose>
+   <xsl:when test="contains($txt,'&#xa;')">
+     <!-- text contains newlines, do the first line -->
+     <xsl:value-of select="substring-before($txt,'&#xa;')" />
+     <!-- print new line -->
+     <br />
+     <!-- wrap the rest of the text -->
+     <xsl:call-template name="wrap">
+      <xsl:with-param name="txt" select="substring-after($txt,'&#xa;')" />
+     </xsl:call-template>
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="$txt" />
    </xsl:otherwise>
   </xsl:choose>
  </xsl:template>
