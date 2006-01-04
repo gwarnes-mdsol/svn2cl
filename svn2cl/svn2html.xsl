@@ -9,11 +9,12 @@
      svn ++verbose ++xml log | \
        xsltproc ++stringparam strip-prefix `basename $(pwd)` \
                 ++stringparam groupbyday yes \
+                ++stringparam authorsfile FILE \
                 svn2html.xsl - > ChangeLog.html
 
    This file is partially based on svn2cl.xsl.
 
-   Copyright (C) 2005 Arthur de Jong.
+   Copyright (C) 2005, 2006 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -68,6 +69,9 @@
 
  <!-- whether entries should be grouped by day -->
  <xsl:param name="groupbyday" select="'no'" />
+
+<!-- location of authors file if any -->
+ <xsl:param name="authorsfile" select="''" />
 
  <!-- match toplevel element -->
  <xsl:template match="log">
@@ -146,7 +150,17 @@
 
  <!-- format author -->
  <xsl:template match="author">
-  <xsl:value-of select="normalize-space(.)" />
+  <xsl:variable name="author" select="normalize-space(.)" />
+  <xsl:choose>
+   <!-- try to look up the author in the authorsfile -->
+   <xsl:when test="$authorsfile!='' and document($authorsfile)//author[@uid=$author]">
+    <xsl:value-of select="document($authorsfile)//author[@uid=$author]" />
+   </xsl:when>
+   <!-- just use the author name as given by svn -->
+   <xsl:otherwise>
+    <xsl:value-of select="$author" />
+   </xsl:otherwise>
+  </xsl:choose>
  </xsl:template>
 
  <!-- present a list of paths names -->

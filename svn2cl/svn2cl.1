@@ -1,4 +1,4 @@
-.\" Copyright (C) 2005 Arthur de Jong
+.\" Copyright (C) 2005, 2006 Arthur de Jong
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -67,6 +67,19 @@ Output ChangeLog to FILE instead of the default ChangeLog (or ChangeLog.html for
 .TP
 \fB\-\-stdout\fR
 Output ChangeLog to stdout instead of to a file.
+
+.TP
+\fB\-\-authors\fR=\fIFILE\fR
+The file is used to map author names as exported by svn to full names.
+An author file should look something like:
+.ft B
+    <?xml version="1.0" encoding="utf-8"?>
+    <authors>
+      <author uid="arthur">
+        Arthur de Jong &lt;arthur@ch.tudelft.nl&gt;
+      </author>
+    </authors>
+.ft R
 
 .TP
 \fB\-\-html\fR

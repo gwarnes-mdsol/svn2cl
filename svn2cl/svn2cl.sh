@@ -3,7 +3,7 @@
 # svn2cl.sh - front end shell script for svn2cl.xsl, calls xsltproc
 #             with the correct parameters
 # 
-# Copyright (C) 2005 Arthur de Jong.
+# Copyright (C) 2005, 2006 Arthur de Jong.
 # 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -47,6 +47,7 @@ INCLUDEREV="no"
 CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
+AUTHORSFILE=""
 
 # do command line checking
 prog=`basename $0`
@@ -87,6 +88,14 @@ do
       ;;
     --stdout)
       CHANGELOG="-"
+      shift
+      ;;
+    --authors)
+      AUTHORSFILE="$2"
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
+      ;;
+    --authors=*)
+      AUTHORSFILE="`echo "$1" | sed 's/--[^=]*=//'`"
       shift
       ;;
     --html)
@@ -131,6 +140,7 @@ do
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
+      echo "  --authors=FILE       xml file to read for authors"
       echo "  --html               output as html instead of plain text"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
@@ -165,6 +175,11 @@ dir=`dirname $prog`
 dir=`cd $dir && pwd`
 XSL="$dir/svn2${OUTSTYLE}.xsl"
 
+# find the absolute path of the authors file
+# (otherwise xsltproc will find the file relative to svn2cl.xsl)
+pwd=`pwd`
+AUTHORSFILE=`echo "$AUTHORSFILE" | sed "/^[^/]/s|^|$pwd/|"`
+
 # if no filename was specified, make one up
 if [ -z "$CHANGELOG" ]
 then
@@ -184,4 +199,5 @@ eval "$SVNCMD" | \
            --stringparam linelen $LINELEN \
            --stringparam groupbyday $GROUPBYDAY \
            --stringparam include-rev $INCLUDEREV \
+           --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
