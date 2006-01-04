@@ -12,13 +12,14 @@
                 ++stringparam linelen 75 \
                 ++stringparam groupbyday yes \
                 ++stringparam include-rev yes \
+                ++stringparam authorsfile FILE \
                 svn2cl.xsl - > ChangeLog
 
    This file is based on several implementations of this conversion
    that I was not completely happy with and some other common
    xslt constructs found on the web.
 
-   Copyright (C) 2004, 2005 Arthur de Jong.
+   Copyright (C) 2004, 2005, 2006 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -76,8 +77,11 @@
  <!-- whether entries should be grouped by day -->
  <xsl:param name="groupbyday" select="'no'" />
 
- <!-- whether entries should be grouped by day -->
+ <!-- whether a revision number should be included -->
  <xsl:param name="include-rev" select="'no'" />
+
+ <!-- location of authors file if any -->
+ <xsl:param name="authorsfile" select="''" />
 
  <!-- add newlines at the end of the changelog -->
  <xsl:template match="log">
@@ -161,7 +165,17 @@
 
  <!-- format author -->
  <xsl:template match="author">
-  <xsl:value-of select="normalize-space(.)" />
+  <xsl:variable name="author" select="normalize-space(.)" />
+  <xsl:choose>
+   <!-- try to look up the author in the authorsfile -->
+   <xsl:when test="$authorsfile!='' and document($authorsfile)//author[@uid=$author]">
+    <xsl:value-of select="document($authorsfile)//author[@uid=$author]" />
+   </xsl:when>
+   <!-- just use the author name as given by svn -->
+   <xsl:otherwise>
+    <xsl:value-of select="$author" />
+   </xsl:otherwise>
+  </xsl:choose>
  </xsl:template>
 
  <!-- present a list of paths names -->
