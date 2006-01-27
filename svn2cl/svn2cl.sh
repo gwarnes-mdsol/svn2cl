@@ -44,6 +44,7 @@ STRIPPREFIX=`basename $PWD`
 LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
+BREAKBEFOREMSG="no"
 CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
@@ -76,6 +77,10 @@ do
       ;;
     -i|--include-rev)
       INCLUDEREV="yes";
+      shift
+      ;;
+    --break-before-msg)
+      BREAKBEFOREMSG="yes"
       shift
       ;;
     -f|--file|-o|--output)
@@ -123,7 +128,7 @@ do
       echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
       echo ""
-      echo "Copyright (C) 2005 Arthur de Jong."
+      echo "Copyright (C) 2005, 2006 Arthur de Jong."
       echo "This is free software; see the source for copying conditions.  There is NO"
       echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
       exit 0
@@ -137,6 +142,8 @@ do
       echo "  --linelen=NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
       echo "  -i, --include-rev    include revision numbers"
+      echo "  --break-before-msg   add a line break between the log paths and"
+      echo "                       log message"
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
@@ -199,5 +206,6 @@ eval "$SVNCMD" | \
            --stringparam linelen $LINELEN \
            --stringparam groupbyday $GROUPBYDAY \
            --stringparam include-rev $INCLUDEREV \
+           --stringparam breakbeforemsg $BREAKBEFOREMSG \
            --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
