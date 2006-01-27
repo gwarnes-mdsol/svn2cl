@@ -12,6 +12,7 @@
                 ++stringparam linelen 75 \
                 ++stringparam groupbyday yes \
                 ++stringparam include-rev yes \
+                ++stringparam breakbeforemsg yes \
                 ++stringparam authorsfile FILE \
                 svn2cl.xsl - > ChangeLog
 
@@ -80,6 +81,9 @@
  <!-- whether a revision number should be included -->
  <xsl:param name="include-rev" select="'no'" />
 
+ <!-- whether the log message should start on a new line -->
+ <xsl:param name="breakbeforemsg" select="'no'" />
+
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
 
@@ -139,6 +143,10 @@
   </xsl:variable>
   <!-- trim trailing newlines -->
   <xsl:variable name="msg">
+   <!-- add a line break before the log message -->
+   <xsl:if test="$breakbeforemsg='yes'">
+    <xsl:text>&newl;</xsl:text>
+   </xsl:if>
    <xsl:call-template name="trim-newln">
     <xsl:with-param name="txt" select="msg" />
    </xsl:call-template>
