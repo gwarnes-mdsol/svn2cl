@@ -113,7 +113,7 @@ Output the changes from the last week, while including revision numbers in the C
     svn2cl \-i \-r "HEAD:{`date -d '7 days ago' '+%F %T'`}"
 .ft R
 .br
-(will always include the HEAD revision though)
+(actually subversion will include the first revision before the specified period)
 
 Generate an HTML changelog for svn://svn.example.com/project/trunk, removing "project/trunk" from the file names in the changelog.
 Group all commits per day into one ChangeLog entry and only include changes from 2005:
