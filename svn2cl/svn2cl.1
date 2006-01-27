@@ -108,6 +108,13 @@ Run svn log recursively on the current directory and generate a text ChangeLog f
     svn2cl
 .ft R
 
+Output the changes from the last week, while including revision numbers in the ChangeLog:
+.ft B
+    svn2cl \-i \-r "HEAD:{`date -d '7 days ago' '+%F %T'`}"
+.ft R
+.br
+(will always include the HEAD revision though)
+
 Generate an HTML changelog for svn://svn.example.com/project/trunk, removing "project/trunk" from the file names in the changelog.
 Group all commits per day into one ChangeLog entry and only include changes from 2005:
 .ft B
