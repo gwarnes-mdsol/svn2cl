@@ -60,7 +60,7 @@ do
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --strip-prefix=*)
-      STRIPPREFIX="`echo "$1" | sed 's/--strip-prefix=//'`"
+      STRIPPREFIX=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --linelen)
@@ -68,7 +68,7 @@ do
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --linelen=*)
-      LINELEN="`echo "$1" | sed 's/--linelen=//'`"
+      LINELEN=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --group-by-day)
@@ -88,7 +88,7 @@ do
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --file=*|--output=*)
-      CHANGELOG="`echo "$1" | sed 's/--[^=]*=//'`"
+      CHANGELOG=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --stdout)
@@ -100,7 +100,7 @@ do
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --authors=*)
-      AUTHORSFILE="`echo "$1" | sed 's/--[^=]*=//'`"
+      AUTHORSFILE=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --html)
