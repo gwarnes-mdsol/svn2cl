@@ -177,7 +177,7 @@
   <xsl:choose>
    <!-- try to look up the author in the authorsfile -->
    <xsl:when test="$authorsfile!='' and document($authorsfile)//author[@uid=$author]">
-    <xsl:value-of select="document($authorsfile)//author[@uid=$author]" />
+    <xsl:value-of select="normalize-space(document($authorsfile)//author[@uid=$author])" />
    </xsl:when>
    <!-- just use the author name as given by svn -->
    <xsl:otherwise>
