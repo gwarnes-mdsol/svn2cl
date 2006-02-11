@@ -49,7 +49,7 @@
 
 -->
 
-<!DOCTYPE page [
+<!DOCTYPE stylesheet [
  <!ENTITY tab "&#9;">
  <!ENTITY newl "&#10;">
  <!ENTITY space "&#32;">
@@ -263,16 +263,16 @@
  <xsl:template name="wrap">
   <xsl:param name="txt" />
   <xsl:choose>
-   <xsl:when test="contains($txt,'&#xa;')">
+   <xsl:when test="contains($txt,'&newl;')">
      <!-- text contains newlines, do the first line -->
      <xsl:call-template name="wrap">
-      <xsl:with-param name="txt" select="substring-before($txt,'&#xa;')" />
+      <xsl:with-param name="txt" select="substring-before($txt,'&newl;')" />
      </xsl:call-template>
      <!-- print tab -->
      <xsl:text>&tab;&space;&space;</xsl:text>
      <!-- wrap the rest of the text -->
      <xsl:call-template name="wrap">
-      <xsl:with-param name="txt" select="substring-after($txt,'&#xa;')" />
+      <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
      </xsl:call-template>
    </xsl:when>
    <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
@@ -327,13 +327,13 @@
   <xsl:param name="txt" />
   <xsl:choose>
    <!-- find starting newlines -->
-   <xsl:when test="substring($txt,1,1) = '&#xa;'">
+   <xsl:when test="substring($txt,1,1) = '&newl;'">
     <xsl:call-template name="trim-newln">
      <xsl:with-param name="txt" select="substring($txt,2)" />
     </xsl:call-template>
    </xsl:when>
    <!-- find trailing newlines -->
-   <xsl:when test="substring($txt,string-length($txt),1) = '&#xa;'">
+   <xsl:when test="substring($txt,string-length($txt),1) = '&newl;'">
     <xsl:call-template name="trim-newln">
      <xsl:with-param name="txt" select="substring($txt,1,string-length($txt)-1)" />
     </xsl:call-template>
