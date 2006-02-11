@@ -43,7 +43,8 @@
 
 -->
 
-<!DOCTYPE page [
+<!DOCTYPE stylesheet [
+ <!ENTITY newl "&#10;">
  <!ENTITY space "&#32;">
 ]>
 
@@ -243,14 +244,14 @@
  <xsl:template name="wrap">
   <xsl:param name="txt" />
   <xsl:choose>
-   <xsl:when test="contains($txt,'&#xa;')">
+   <xsl:when test="contains($txt,'&newl;')">
      <!-- text contains newlines, do the first line -->
-     <xsl:value-of select="substring-before($txt,'&#xa;')" />
+     <xsl:value-of select="substring-before($txt,'&newl;')" />
      <!-- print new line -->
      <br />
      <!-- wrap the rest of the text -->
      <xsl:call-template name="wrap">
-      <xsl:with-param name="txt" select="substring-after($txt,'&#xa;')" />
+      <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
      </xsl:call-template>
    </xsl:when>
    <xsl:otherwise>
