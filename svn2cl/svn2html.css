@@ -1,10 +1,19 @@
 body {
   background-color: white;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1em;  
 }
 
 ul.changelog_entries {
-  margin-left: 0px;
-  padding-left: 0px;
+  margin-left: 0.7em;
+  margin-right: 0.7em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-bottom: 0.7em;
+  background: #fefefe;
+  border: 1px dashed #88aa88;
 }
 
 li.changelog_entry {
@@ -12,28 +21,33 @@ li.changelog_entry {
   margin-left: 0px;
   padding-left: 0px;
   margin-top: 0.8em;
+  border-top: 1px solid #dddddd;
+  background: #f8f8f8;
 }
 
 li.changelog_change {
+  list-style-type: circle;
   margin-left: 4em;
 }
 
 span.changelog_date {
-  color: #22aa22;
+  color: black;
 }
 
 span.changelog_author {
-  color: #2222aa;
+  color: #111188;
 }
 
 .changelog_revision {
-  font-size: 50%;
-  color: #aa22aa;
+  font-size: 80%;
+  color: #881111;
+  background: #fff4f4;
 }
 
 .changelog_files {
-  font-size: 50%;
-  color: #aaaa22;
+  font-size: 80%;
+  font-family: monospace;
+  color: #116611;
 }
 
 .changelog_files:after {
@@ -41,7 +55,19 @@ span.changelog_author {
 }
 
 .changelog_message {
-  /* uncomment the following line to put the message on a seporate line */
-  /* display: block; */
-  color: #aa2222;
+  display: block;
+  color: #220000;
+}
+
+p.changelog_footer {
+  margin-top: 1.5em;
+  margin-left: 0.7em;
+  font-style: italic;
+  line-height: 90%;
+  color: gray;
+}
+
+p.changelog_footer a {
+  text-decoration: none;
+  color: gray;
 }
