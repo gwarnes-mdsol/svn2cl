@@ -118,7 +118,9 @@
   <!-- entry -->
   <li class="changelog_change">
    <!-- get revision number -->
-   <span class="changelog_revision">[r<xsl:value-of select="@revision" />]</span>
+   <span class="changelog_revision">
+    <a id="r{@revision}" href="#r{@revision}">[r<xsl:value-of select="@revision" />]</a>
+   </span>
    <xsl:text>&space;</xsl:text>
    <!-- get paths string -->
    <span class="changelog_files"><xsl:apply-templates select="paths" /></span>
