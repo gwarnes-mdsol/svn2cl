@@ -228,4 +228,8 @@ eval "$SVNCMD" | \
            --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
 
+# clean up temporary files
 [ -n "$TMPFILES" ] && eval "rm -f $TMPFILES"
+
+# we're done (the previous command could return false)
+exit 0
