@@ -49,6 +49,7 @@ CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
 AUTHORSFILE=""
+TMPFILES=""
 
 # do command line checking
 prog=`basename $0`
@@ -147,7 +148,7 @@ do
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
-      echo "  --authors=FILE       xml file to read for authors"
+      echo "  --authors=FILE       file to read for authors"
       echo "  --html               output as html instead of plain text"
       echo "  -h, --help           display this help and exit"
       echo "  -V, --version        output version information and exit"
@@ -182,6 +183,23 @@ dir=`dirname $prog`
 dir=`cd $dir && pwd`
 XSL="$dir/svn2${OUTSTYLE}.xsl"
 
+# check if the authors file is formatted as a legacy
+# colon separated file
+if [ -n "$AUTHORSFILE" ] && \
+    egrep '^(#.*|[a-zA-Z0-9].*:)' "$AUTHORSFILE" > /dev/null 2>/dev/null
+then
+  # create a temporary file
+  tmpfile=`mktemp -t svn2cl.XXXXXX 2> /dev/null || tempfile -s .svn2cl 2> /dev/null || echo "$AUTHORSFILE.$$.xml"`
+  arg=`echo "$tmpfile" | sed "s/'/'\"'\"'/g"`
+  TMPFILES="$TMPFILES '$arg'"
+  # generate an authors.xml file on the fly
+  echo '<authors>' > "$tmpfile"
+  sed -n 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g;s|^\([a-zA-Z0-9][^:]*\):\(.*\)$| <author uid="\1">\2</author>|p' \
+      < "$AUTHORSFILE"  >> "$tmpfile"
+  echo '</authors>' >> "$tmpfile"
+  AUTHORSFILE="$tmpfile"
+fi
+
 # find the absolute path of the authors file
 # (otherwise xsltproc will find the file relative to svn2cl.xsl)
 pwd=`pwd`
@@ -209,3 +227,5 @@ eval "$SVNCMD" | \
            --stringparam breakbeforemsg $BREAKBEFOREMSG \
            --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
+
+[ -n "$TMPFILES" ] && eval "rm -f $TMPFILES"
