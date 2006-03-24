@@ -40,7 +40,7 @@ VERSION="0.6"
 
 # set default parameters
 PWD=`pwd`
-STRIPPREFIX=`basename $PWD`
+STRIPPREFIX="AUTOMATICALLY-DETERMINED"
 LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
@@ -50,6 +50,7 @@ OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
 AUTHORSFILE=""
 TMPFILES=""
+PATHS=""
 
 # do command line checking
 prog=`basename $0`
@@ -167,6 +168,7 @@ do
     *)
       arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
       SVNCMD="$SVNCMD '$arg'"
+      PATHS="$PATHS '$arg'"
       shift
       ;;
   esac
@@ -210,6 +212,12 @@ if [ -z "$CHANGELOG" ]
 then
   CHANGELOG="ChangeLog"
   [ "$OUTSTYLE" != "cl" ] && CHANGELOG="$CHANGELOG.$OUTSTYLE"
+fi
+
+# try to determin a prefix to strip from all paths
+if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
+then
+  STRIPPREFIX=`eval "svn info $PATHS" | awk '/^URL:/ { url=$2 } /^Repository Root:/ { root=$3} END {print substr(url,length(root)+2)}'`
 fi
 
 # redirect stdout to the changelog file if needed
