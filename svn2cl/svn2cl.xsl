@@ -86,6 +86,8 @@
 
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
+ <xsl:key name="authors-lookup" match="author" use="@uid"/>
+ <xsl:variable name="authors-top" select="document($authorsfile)/authors"/>
 
  <!-- add newlines at the end of the changelog -->
  <xsl:template match="log">
@@ -173,17 +175,29 @@
 
  <!-- format author -->
  <xsl:template match="author">
-  <xsl:variable name="author" select="normalize-space(.)" />
+  <!-- try to lookup author in authorsfile -->
+  <xsl:variable name="author">
+   <xsl:if test="$authorsfile!=''">
+    <xsl:apply-templates select="$authors-top">
+     <xsl:with-param name="uid" select="normalize-space(.)" />
+    </xsl:apply-templates>
+   </xsl:if>
+  </xsl:variable>
+  <!-- present result -->
   <xsl:choose>
-   <!-- try to look up the author in the authorsfile -->
-   <xsl:when test="$authorsfile!='' and document($authorsfile)//author[@uid=$author]">
-    <xsl:value-of select="normalize-space(document($authorsfile)//author[@uid=$author])" />
-   </xsl:when>
-   <!-- just use the author name as given by svn -->
-   <xsl:otherwise>
+   <xsl:when test="$author">
     <xsl:value-of select="$author" />
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="normalize-space(.)" />
    </xsl:otherwise>
   </xsl:choose>
+ </xsl:template>
+ 
+ <!-- template to lookup author in authorsfile -->
+ <xsl:template match="authors">
+  <xsl:param name="uid" />
+  <xsl:value-of select="key('author-lookup', $uid)" />
  </xsl:template>
 
  <!-- present a list of paths names -->
