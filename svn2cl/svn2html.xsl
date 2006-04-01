@@ -127,7 +127,7 @@
    <xsl:text>&space;</xsl:text>
    <!-- get message text -->
    <span class="changelog_message">
-    <xsl:call-template name="breaktxt">
+    <xsl:call-template name="newlinestobr">
      <xsl:with-param name="txt" select="msg" />
     </xsl:call-template>
    </span>
@@ -135,7 +135,7 @@
  </xsl:template>
 
  <!-- template to replace line breaks with <br/> tags -->
- <xsl:template name="breaktxt">
+ <xsl:template name="newlinestobr">
   <xsl:param name="txt" />
   <xsl:choose>
    <xsl:when test="contains($txt,'&newl;')">
@@ -144,7 +144,7 @@
      <!-- print new line -->
      <br />
      <!-- wrap the rest of the text -->
-     <xsl:call-template name="breaktxt">
+     <xsl:call-template name="newlinestobr">
       <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
      </xsl:call-template>
    </xsl:when>
