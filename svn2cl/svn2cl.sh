@@ -229,10 +229,10 @@ fi
 # actually run the command we need
 eval "$SVNCMD" | \
   xsltproc --stringparam strip-prefix "$STRIPPREFIX" \
-           --stringparam linelen $LINELEN \
-           --stringparam groupbyday $GROUPBYDAY \
-           --stringparam include-rev $INCLUDEREV \
-           --stringparam breakbeforemsg $BREAKBEFOREMSG \
+           --stringparam linelen "$LINELEN" \
+           --stringparam groupbyday "$GROUPBYDAY" \
+           --stringparam include-rev "$INCLUDEREV" \
+           --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
            --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
 
