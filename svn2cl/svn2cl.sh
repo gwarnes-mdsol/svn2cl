@@ -140,7 +140,7 @@ do
       echo "Generate a ChangeLog from a subversion repository."
       echo ""
       echo "  --strip-prefix=NAME  prefix to strip from all entries, defaults"
-      echo "                       to the name of the current directory"
+      echo "                       path inside the repository"
       echo "  --linelen=NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
       echo "  -i, --include-rev    include revision numbers"
@@ -155,8 +155,8 @@ do
       echo "  -V, --version        output version information and exit"
       echo ""
       echo "PATH arguments and the following options are passed to the svn log"
-      echo "command: -r, --revision, --target --stop-on-copy, --username,"
-      echo "--password, --no-auth-cache, --non-interactive, --config-dir,"
+      echo "command: -r, --revision, --targets --stop-on-copy, --username,"
+      echo "--password, --no-auth-cache, --non-interactive, --config-dir and"
       echo "--limit (see \`svn help log' for more information)."
       exit 0
       ;;
