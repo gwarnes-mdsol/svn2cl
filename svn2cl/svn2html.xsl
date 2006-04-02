@@ -87,34 +87,49 @@
 
  <!-- format one entry from the log -->
  <xsl:template match="logentry">
-  <!-- save log entry number -->
-  <xsl:variable name="pos" select="position()" />
-  <!-- fetch previous entry's date -->
-  <xsl:variable name="prevdate">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
-  </xsl:variable>
-  <!-- fetch previous entry's author -->
-  <xsl:variable name="prevauthor">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/author" />
-  </xsl:variable>
-  <!-- fetch this entry's date -->
-  <xsl:variable name="date">
-   <xsl:apply-templates select="date" />
-  </xsl:variable>
-  <!-- fetch this entry's author -->
-  <xsl:variable name="author">
-   <xsl:apply-templates select="author" />
-  </xsl:variable>
-  <!-- check if header is changed -->
-  <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
-   <li class="changelog_entry">
-    <!-- date -->
-    <span class="changelog_date"><xsl:apply-templates select="date" /></span>
-    <xsl:text>&space;</xsl:text>
-    <!-- author's name -->
-    <span class="changelog_author"><xsl:apply-templates select="author" /></span>
-   </li>
-  </xsl:if>
+  <xsl:choose>
+   <!-- if we're grouping we should omit some headers -->
+   <xsl:when test="$groupbyday='yes'">
+    <!-- save log entry number -->
+    <xsl:variable name="pos" select="position()" />
+    <!-- fetch previous entry's date -->
+    <xsl:variable name="prevdate">
+     <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
+    </xsl:variable>
+    <!-- fetch previous entry's author -->
+    <xsl:variable name="prevauthor">
+     <xsl:value-of select="normalize-space(../logentry[position()=(($pos)-1)]/author)" />
+    </xsl:variable>
+    <!-- fetch this entry's date -->
+    <xsl:variable name="date">
+     <xsl:apply-templates select="date" />
+    </xsl:variable>
+    <!-- fetch this entry's author -->
+    <xsl:variable name="author">
+     <xsl:value-of select="normalize-space(author)" />
+    </xsl:variable>
+    <!-- check if header is changed -->
+    <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
+     <li class="changelog_entry">
+      <!-- date -->
+      <span class="changelog_date"><xsl:value-of select="$date" /></span>
+      <xsl:text>&space;</xsl:text>
+      <!-- author's name -->
+      <span class="changelog_author"><xsl:apply-templates select="author" /></span>
+     </li>
+    </xsl:if>
+   </xsl:when>
+   <!-- write the log header -->
+   <xsl:otherwise>
+    <li class="changelog_entry">
+     <!-- date -->
+     <span class="changelog_date"><xsl:apply-templates select="date" /></span>
+     <xsl:text>&space;</xsl:text>
+     <!-- author's name -->
+     <span class="changelog_author"><xsl:apply-templates select="author" /></span>
+    </li>
+   </xsl:otherwise>
+  </xsl:choose>
   <!-- entry -->
   <li class="changelog_change">
    <!-- get revision number -->
@@ -139,14 +154,14 @@
   <xsl:param name="txt" />
   <xsl:choose>
    <xsl:when test="contains($txt,'&newl;')">
-     <!-- text contains newlines, do the first line -->
-     <xsl:value-of select="substring-before($txt,'&newl;')" />
-     <!-- print new line -->
-     <br />
-     <!-- wrap the rest of the text -->
-     <xsl:call-template name="newlinestobr">
-      <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
-     </xsl:call-template>
+    <!-- text contains newlines, do the first line -->
+    <xsl:value-of select="substring-before($txt,'&newl;')" />
+    <!-- print new line -->
+    <br />
+    <!-- wrap the rest of the text -->
+    <xsl:call-template name="newlinestobr">
+     <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
+    </xsl:call-template>
    </xsl:when>
    <xsl:otherwise>
     <xsl:value-of select="$txt" />
