@@ -97,39 +97,59 @@
 
  <!-- format one entry from the log -->
  <xsl:template match="logentry">
-  <!-- save log entry number -->
-  <xsl:variable name="pos" select="position()" />
-  <!-- fetch previous entry's date -->
-  <xsl:variable name="prevdate">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
-  </xsl:variable>
-  <!-- fetch previous entry's author -->
-  <xsl:variable name="prevauthor">
-   <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/author" />
-  </xsl:variable>
-  <!-- fetch this entry's date -->
-  <xsl:variable name="date">
-   <xsl:apply-templates select="date" />
-  </xsl:variable>
-  <!-- fetch this entry's author -->
-  <xsl:variable name="author">
-   <xsl:apply-templates select="author" />
-  </xsl:variable>
-  <!-- check if header is changed -->
-  <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
-   <!-- add newline -->
-   <xsl:if test="not(position()=1)">
+  <xsl:choose>
+   <!-- if we're grouping we should omit some headers -->
+   <xsl:when test="$groupbyday='yes'">
+    <!-- save log entry number -->
+    <xsl:variable name="pos" select="position()" />
+    <!-- fetch previous entry's date -->
+    <xsl:variable name="prevdate">
+     <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
+    </xsl:variable>
+    <!-- fetch previous entry's author -->
+    <xsl:variable name="prevauthor">
+     <xsl:value-of select="normalize-space(../logentry[position()=(($pos)-1)]/author)" />
+    </xsl:variable>
+    <!-- fetch this entry's date -->
+    <xsl:variable name="date">
+     <xsl:apply-templates select="date" />
+    </xsl:variable>
+    <!-- fetch this entry's author -->
+    <xsl:variable name="author">
+     <xsl:value-of select="normalize-space(author)" />
+    </xsl:variable>
+    <!-- check if header is changed -->
+    <xsl:if test="($prevdate!=$date) or ($prevauthor!=$author)">
+     <!-- add newline -->
+     <xsl:if test="not(position()=1)">
+      <xsl:text>&newl;</xsl:text>
+     </xsl:if>
+     <!-- date -->
+     <xsl:value-of select="$date" />
+     <!-- two spaces -->
+     <xsl:text>&space;&space;</xsl:text>
+     <!-- author's name -->
+     <xsl:apply-templates select="author" />
+     <!-- two newlines -->
+     <xsl:text>&newl;&newl;</xsl:text>
+    </xsl:if>
+   </xsl:when>
+   <!-- write the log header -->
+   <xsl:otherwise>
+    <!-- add newline -->
+    <xsl:if test="not(position()=1)">
      <xsl:text>&newl;</xsl:text>
-   </xsl:if>
-   <!-- date -->
-   <xsl:apply-templates select="date" />
-   <!-- two spaces -->
-   <xsl:text>&space;&space;</xsl:text>
-   <!-- author's name -->
-   <xsl:apply-templates select="author" />
-   <!-- two newlines -->
-   <xsl:text>&newl;&newl;</xsl:text>
-  </xsl:if>
+    </xsl:if>
+    <!-- date -->
+    <xsl:apply-templates select="$date" />
+    <!-- two spaces -->
+    <xsl:text>&space;&space;</xsl:text>
+    <!-- author's name -->
+    <xsl:apply-templates select="author" />
+    <!-- two newlines -->
+    <xsl:text>&newl;&newl;</xsl:text>
+   </xsl:otherwise>
+  </xsl:choose>
   <!-- get paths string -->
   <xsl:variable name="paths">
    <xsl:apply-templates select="paths" />
