@@ -141,7 +141,7 @@
      <xsl:text>&newl;</xsl:text>
     </xsl:if>
     <!-- date -->
-    <xsl:apply-templates select="$date" />
+    <xsl:apply-templates select="date" />
     <!-- two spaces -->
     <xsl:text>&space;&space;</xsl:text>
     <!-- author's name -->
