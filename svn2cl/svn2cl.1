@@ -43,13 +43,14 @@ If PATH is not given, \fBsvn2cl\fP will run svn log on the current directory, so
 
 .TP
 \fB\-\-strip\-prefix\fR=\fINAME\fR
-Strip NAME from the first part of all file names (e.g. project/trunk).
+Strip \fINAME\fR from the first part of all file names (e.g. project/trunk).
 By defaults the current path inside the repository is stripped.
 
 .TP
 \fB\-\-linelen\fR=\fINUM\fR
-Wrap lines at NUM characters.
+Wrap lines at \fINUM\fR characters.
 By default, lines are wrapped at 75 characters.
+This option is ignored when the \-\-html option is specified.
 
 .TP
 \fB\-\-group\-by\-day\fR
@@ -59,16 +60,16 @@ By default each message is listed separately with its own timestamp.
 .TP
 \fB\-i\fR, \fB\-\-include\-rev\fR
 Include the subversion revision number in the ChangeLog.
+If the \-\-html option is specified this is implied, edit \fBsvn2html.css\fP to turn it off.
 
 .TP
 \fB\-\-break-before-msg\fR
 Add a line break between the log paths and the log message.
-This option only applies to the normal text output.
-To acomplish this for the html output edit the css file.
+If the \-\-html option is specified this is implied, edit \fBsvn2html.css\fP to turn it off.
 
 .TP
 \fB\-o\fR, \fB\-f\fR, \fB\-\-output\fR=\fIFILE\fR, \fB\-\-file\fR=\fIFILE\fR
-Output ChangeLog to FILE instead of the default ChangeLog (or ChangeLog.html for html output).
+Output ChangeLog to \fIFILE\fR instead of the default \fBChangeLog\fP (or \fBChangeLog.html\fP for html output).
 
 .TP
 \fB\-\-stdout\fR
@@ -76,7 +77,7 @@ Output ChangeLog to stdout instead of to a file.
 
 .TP
 \fB\-\-authors\fR=\fIFILE\fR
-The file is used to map author names as exported by svn to full names.
+The \fIFILE\fR is used to map author names as exported by svn to full names.
 An author file should look something like:
 .ft B
     <?xml version="1.0" encoding="utf-8"?>
