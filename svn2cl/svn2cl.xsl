@@ -11,6 +11,7 @@
        xsltproc ++stringparam strip-prefix `basename $(pwd)` \
                 ++stringparam linelen 75 \
                 ++stringparam groupbyday yes \
+                ++stringparam separate-daylogs yes \
                 ++stringparam include-rev yes \
                 ++stringparam breakbeforemsg yes \
                 ++stringparam reparagraph yes \
@@ -79,6 +80,9 @@
  <!-- whether entries should be grouped by day -->
  <xsl:param name="groupbyday" select="'no'" />
 
+ <!-- whether to seperate log messages by empty lines -->
+ <xsl:param name="separate-daylogs" select="'no'" />
+
  <!-- whether a revision number should be included -->
  <xsl:param name="include-rev" select="'no'" />
 
@@ -135,7 +139,8 @@
      <!-- author's name -->
      <xsl:apply-templates select="author" />
      <!-- two newlines -->
-     <xsl:text>&newl;&newl;</xsl:text>
+     <xsl:text>&newl;</xsl:text>
+     <xsl:if test="$separate-daylogs!='yes'"><xsl:text>&newl;</xsl:text></xsl:if>
     </xsl:if>
    </xsl:when>
    <!-- write the log header -->
@@ -177,6 +182,8 @@
     <xsl:with-param name="txt" select="msg" />
    </xsl:call-template>
   </xsl:variable>
+  <!-- add newline here if separate-daylogs is in effect -->
+  <xsl:if test="$groupbyday='yes' and $separate-daylogs='yes'"><xsl:text>&newl;</xsl:text></xsl:if>
   <!-- first line is indented (other indents are done in wrap template) -->
   <xsl:text>&tab;*&space;</xsl:text>
   <!-- print the paths and message nicely wrapped -->
