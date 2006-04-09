@@ -13,6 +13,7 @@
                 ++stringparam groupbyday yes \
                 ++stringparam include-rev yes \
                 ++stringparam breakbeforemsg yes \
+                ++stringparam reparagraph yes \
                 ++stringparam authorsfile FILE \
                 svn2cl.xsl - > ChangeLog
 
@@ -83,6 +84,9 @@
 
  <!-- whether the log message should start on a new line -->
  <xsl:param name="breakbeforemsg" select="'no'" />
+
+ <!-- whether the message should be rewrapped within one paragraph -->
+ <xsl:param name="reparagraph" select="'no'" />
 
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
@@ -366,6 +370,21 @@
     <xsl:call-template name="trim-newln">
      <xsl:with-param name="txt" select="substring($txt,1,string-length($txt)-1)" />
     </xsl:call-template>
+   </xsl:when>
+   <!-- if the message has paragrapgs, find the first one -->
+   <xsl:when test="$reparagraph='yes' and contains($txt,'&newl;&newl;')">
+     <!-- remove newlines from first paragraph -->
+     <xsl:value-of select="normalize-space(substring-before($txt,'&newl;&newl;'))" />
+     <!-- paragraph separator -->
+     <xsl:text>&newl;&newl;</xsl:text>
+     <!-- do the rest of the text -->
+     <xsl:call-template name="trim-newln">
+      <xsl:with-param name="txt" select="substring-after($txt,'&newl;&newl;')" />
+     </xsl:call-template>
+   </xsl:when>
+   <!-- remove more single newlines -->
+   <xsl:when test="$reparagraph='yes'">
+    <xsl:value-of select="normalize-space($txt)" />
    </xsl:when>
    <!-- no newlines found, we're done -->
    <xsl:otherwise>
