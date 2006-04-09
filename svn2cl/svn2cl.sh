@@ -45,6 +45,7 @@ LINELEN=75
 GROUPBYDAY="no"
 INCLUDEREV="no"
 BREAKBEFOREMSG="no"
+REPARAGRAPH="no"
 CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
@@ -83,6 +84,10 @@ do
       ;;
     --break-before-msg)
       BREAKBEFOREMSG="yes"
+      shift
+      ;;
+    --reparagraph)
+      REPARAGRAPH="yes"
       shift
       ;;
     -f|--file|-o|--output)
@@ -146,6 +151,7 @@ do
       echo "  -i, --include-rev    include revision numbers"
       echo "  --break-before-msg   add a line break between the log paths and"
       echo "                       log message"
+      echo "  --reparagraph        rewrap lines inside a paragraph"
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
@@ -233,6 +239,7 @@ eval "$SVNCMD" | \
            --stringparam groupbyday "$GROUPBYDAY" \
            --stringparam include-rev "$INCLUDEREV" \
            --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
+           --stringparam reparagraph "$REPARAGRAPH" \
            --stringparam authorsfile "$AUTHORSFILE" \
            "$XSL" -
 
