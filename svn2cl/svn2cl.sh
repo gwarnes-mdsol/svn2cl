@@ -223,7 +223,8 @@ fi
 # try to determin a prefix to strip from all paths
 if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
 then
-  STRIPPREFIX=`eval "svn info $PATHS" | awk '/^URL:/ { url=$2 } /^Repository Root:/ { root=$3} END {print substr(url,length(root)+2)}'`
+  # FIXME: this breaks with spaces in repository names
+  STRIPPREFIX=`eval "svn info $PATHS" | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
 fi
 
 # redirect stdout to the changelog file if needed
