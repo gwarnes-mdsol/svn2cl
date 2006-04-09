@@ -46,6 +46,7 @@ GROUPBYDAY="no"
 INCLUDEREV="no"
 BREAKBEFOREMSG="no"
 REPARAGRAPH="no"
+SEPARATEDAYLOGS="no"
 CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
@@ -76,6 +77,10 @@ do
       ;;
     --group-by-day)
       GROUPBYDAY="yes";
+      shift
+      ;;
+    --separate-daylogs)
+      SEPARATEDAYLOGS="yes"
       shift
       ;;
     -i|--include-rev)
@@ -148,6 +153,7 @@ do
       echo "                       path inside the repository"
       echo "  --linelen=NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
+      echo "  --separate-daylogs   put a blank line between grouped by day entries"
       echo "  -i, --include-rev    include revision numbers"
       echo "  --break-before-msg   add a line break between the log paths and"
       echo "                       log message"
@@ -238,6 +244,7 @@ eval "$SVNCMD" | \
   xsltproc --stringparam strip-prefix "$STRIPPREFIX" \
            --stringparam linelen "$LINELEN" \
            --stringparam groupbyday "$GROUPBYDAY" \
+           --stringparam separate-daylogs "$SEPARATEDAYLOGS" \
            --stringparam include-rev "$INCLUDEREV" \
            --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
            --stringparam reparagraph "$REPARAGRAPH" \
