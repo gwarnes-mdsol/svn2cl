@@ -1,3 +1,101 @@
+2006-04-10 18:47  arthur
+
+	* [r83] svn2cl.1, svn2html.xsl: make --reparagraph option also
+	  work for HTML output
+
+2006-04-09 21:33  arthur
+
+	* [r82] svn2cl.1: add --html compatibility information to
+	  --separate-daylogs and --repragraph options
+
+2006-04-09 21:24  arthur
+
+	* [r81] svn2cl.1, svn2cl.sh, svn2cl.xsl: implement
+	  --separate-daylogs option to put a newline between log entries
+	  when --group-by-day is used
+
+2006-04-09 20:41  arthur
+
+	* [r80] svn2cl.sh: fallback to old behaviour of stripping prefix
+	  if svn info does not provide the necessary info
+
+2006-04-09 20:32  arthur
+
+	* [r79] svn2cl.1, svn2cl.sh, svn2cl.xsl: implement --repragraph
+	  option that rewraps text inside paragraphs
+
+2006-04-02 21:10  arthur
+
+	* [r78] svn2cl.1: clearly state which options do not work with
+	  --html
+
+2006-04-02 20:43  arthur
+
+	* [r77] svn2cl.xsl: typo fix
+
+2006-04-02 09:08  arthur
+
+	* [r76] svn2cl.xsl, svn2html.xsl: split out group-by-day code to
+	  separate code block and reduce number of xsl:apply-templates
+	  calls
+
+2006-04-02 08:46  arthur
+
+	* [r75] svn2cl.xsl: typo author-lookup fix for r71 plus some
+	  readability improvements to code doing the author lookup
+
+2006-04-01 21:37  arthur
+
+	* [r74] svn2html.xsl: give template a more logical name
+
+2006-04-01 21:34  arthur
+
+	* [r73] svn2cl.sh: ensure that stringparam arguments are always
+	  properly quoted
+
+2006-04-01 21:31  arthur
+
+	* [r72] svn2cl.1, svn2cl.sh: svn option is called --targets (with
+	  the s) and some other small usage fixes
+
+2006-03-27 20:42  arthur
+
+	* [r71] svn2cl.xsl: use xsl:key when looking up author names in
+	  authors.xml file (idea from
+	  http://www-128.ibm.com/developerworks/library/x-xsltip.html)
+	  (improving performance around 10-20% with large logs)
+
+2006-03-24 17:33  arthur
+
+	* [r70] svn2cl.1, svn2cl.sh: determin prefix to strip from output
+	  of svn info command (using awk)
+
+2006-03-21 21:25  arthur
+
+	* [r69] svn2cl.sh: add comment and ensure that script returns 0 on
+	  successful exit
+
+2006-03-21 20:48  arthur
+
+	* [r68] svn2cl.1, svn2cl.sh: implement automatically converting
+	  authors file to xml if it is in colon separated format, based on
+	  a patch by Olivier Blin <oblin@mandriva.com>
+
+2006-03-17 16:22  arthur
+
+	* [r67] svn2html.css: reduce w3c css checker warnings and slightly
+	  improve layout, making anchors stand out a little less
+
+2006-03-17 16:19  arthur
+
+	* [r66] svn2html.xsl: made anchors and links for each revision
+	  based on a patch by Tobias Schäfer <tobiasschaefer@gmx.de>
+
+2006-02-11 15:29  arthur
+
+	* [r64] ChangeLog, NEWS, README, TODO, svn2cl.1, svn2cl.sh: get
+	  files ready for 0.6 release
+
 2006-02-11 15:17  arthur
 
 	* [r63] svn2html.xsl: include common formatting templates from
@@ -115,6 +213,9 @@
 2005-12-04 21:26  arthur
 
 	* [r38] ., -0.4: move directory back
+
+2005-12-04 21:26  arthur
+
 	* [r37] ., -0.4: make release 0.4
 
 2005-12-04 21:23  arthur
@@ -160,6 +261,9 @@
 2005-12-03 12:52  arthur
 
 	* [r27] svn2cl.xsl: remove TODO section (is now in a separate file)
+
+2005-12-03 12:52  arthur
+
 	* [r26] svn2cl.xsl: ensure that we have a space everywhere before
 	  />
 
