@@ -141,9 +141,14 @@
    <span class="changelog_files"><xsl:apply-templates select="paths" /></span>
    <xsl:text>&space;</xsl:text>
    <!-- get message text -->
+   <xsl:variable name="msg">
+    <xsl:call-template name="trim-newln">
+     <xsl:with-param name="txt" select="msg" />
+    </xsl:call-template>
+   </xsl:variable>
    <span class="changelog_message">
     <xsl:call-template name="newlinestobr">
-     <xsl:with-param name="txt" select="msg" />
+     <xsl:with-param name="txt" select="$msg" />
     </xsl:call-template>
    </span>
   </li>
