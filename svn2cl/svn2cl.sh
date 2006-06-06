@@ -249,6 +249,9 @@ eval "$SVNCMD" | \
            --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
            --stringparam reparagraph "$REPARAGRAPH" \
            --stringparam authorsfile "$AUTHORSFILE" \
+           --nowrite \
+           --nomkdir \
+           --nonet \
            "$XSL" -
 
 # clean up temporary files
