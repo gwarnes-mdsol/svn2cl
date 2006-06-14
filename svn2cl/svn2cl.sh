@@ -51,6 +51,7 @@ CHANGELOG=""
 OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
 AUTHORSFILE=""
+TITLE="ChangeLog"
 TMPFILES=""
 PATHS=""
 
@@ -93,6 +94,14 @@ do
       ;;
     --reparagraph)
       REPARAGRAPH="yes"
+      shift
+      ;;
+    --title)
+      TITLE="$2"
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
+      ;;
+    --title=*)
+      TITLE=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     -f|--file|-o|--output)
@@ -158,6 +167,7 @@ do
       echo "  --break-before-msg   add a line break between the log paths and"
       echo "                       log message"
       echo "  --reparagraph        rewrap lines inside a paragraph"
+      echo "  --title=NAME         title used in html file"
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
@@ -249,6 +259,7 @@ eval "$SVNCMD" | \
            --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
            --stringparam reparagraph "$REPARAGRAPH" \
            --stringparam authorsfile "$AUTHORSFILE" \
+           --stringparam title "$TITLE" \
            --nowrite \
            --nomkdir \
            --nonet \
