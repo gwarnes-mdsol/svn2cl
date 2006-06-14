@@ -10,6 +10,7 @@
        xsltproc ++stringparam strip-prefix `basename $(pwd)` \
                 ++stringparam groupbyday yes \
                 ++stringparam authorsfile FILE \
+                ++stringparam title NAME \
                 svn2html.xsl - > ChangeLog.html
 
    This file is partially based on svn2cl.xsl.
@@ -66,15 +67,21 @@
    doctype-public="-//W3C//DTD XHTML 1.1//EN"
    doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
 
+ <!-- title of the report -->
+ <xsl:param name="title" select="'ChangeLog'" />
+
  <!-- match toplevel element -->
  <xsl:template match="log">
   <html>
    <head>
-    <title>ChangeLog</title>
+    <title><xsl:value-of select="string($title)"/></title>
     <link rel="stylesheet" href="svn2html.css" type="text/css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    </head>
    <body>
+    <xsl:if test="$title">
+     <h1><xsl:value-of select="string($title)"/></h1>
+    </xsl:if>
     <ul class="changelog_entries">
      <xsl:apply-templates />
     </ul>
