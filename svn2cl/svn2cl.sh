@@ -52,6 +52,7 @@ OUTSTYLE="cl"
 SVNCMD="svn --verbose --xml log"
 AUTHORSFILE=""
 TITLE="ChangeLog"
+REVISION_LINK="#r"
 TMPFILES=""
 PATHS=""
 
@@ -102,6 +103,14 @@ do
       ;;
     --title=*)
       TITLE=`echo "$1" | sed 's/^--[a-z-]*=//'`
+      shift
+      ;;
+    --revision-link)
+      REVISION_LINK="$2"
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
+      ;;
+    --revision-link=*)
+      REVISION_LINK=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     -f|--file|-o|--output)
@@ -168,6 +177,7 @@ do
       echo "                       log message"
       echo "  --reparagraph        rewrap lines inside a paragraph"
       echo "  --title=NAME         title used in html file"
+      echo "  --revision-link=NAME link revision numbers in html output"
       echo "  -o, --output=FILE    output to FILE instead of ChangeLog"
       echo "  -f, --file=FILE      alias for -o, --output"
       echo "  --stdout             output to stdout instead of ChangeLog"
@@ -260,6 +270,7 @@ eval "$SVNCMD" | \
            --stringparam reparagraph "$REPARAGRAPH" \
            --stringparam authorsfile "$AUTHORSFILE" \
            --stringparam title "$TITLE" \
+           --stringparam revision-link "$REVISION_LINK" \
            --nowrite \
            --nomkdir \
            --nonet \

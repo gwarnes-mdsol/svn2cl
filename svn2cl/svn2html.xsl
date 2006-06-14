@@ -11,6 +11,7 @@
                 ++stringparam groupbyday yes \
                 ++stringparam authorsfile FILE \
                 ++stringparam title NAME \
+                ++stringparam revision-link NAME \ 
                 svn2html.xsl - > ChangeLog.html
 
    This file is partially based on svn2cl.xsl.
@@ -69,6 +70,9 @@
 
  <!-- title of the report -->
  <xsl:param name="title" select="'ChangeLog'" />
+
+ <!-- link to use for linking revision numbers -->
+ <xsl:param name="revision-link" select="'#r'" />
 
  <!-- match toplevel element -->
  <xsl:template match="log">
@@ -140,8 +144,18 @@
   <!-- entry -->
   <li class="changelog_change">
    <!-- get revision number -->
+   <xsl:variable name="revlink">
+    <xsl:choose>
+     <xsl:when test="contains($revision-link,'##')">
+      <xsl:value-of select="concat(substring-before($revision-link,'##'),@revision,substring-after($revision-link,'##'))" />
+     </xsl:when>
+     <xsl:otherwise>   
+      <xsl:value-of select="concat($revision-link,@revision)" />
+     </xsl:otherwise>
+    </xsl:choose>
+   </xsl:variable>
    <span class="changelog_revision">
-    <a id="r{@revision}" href="#r{@revision}">[r<xsl:value-of select="@revision" />]</a>
+    <a id="r{@revision}" href="{$revlink}">[r<xsl:value-of select="@revision" />]</a>
    </span>
    <xsl:text>&space;</xsl:text>
    <!-- get paths string -->
