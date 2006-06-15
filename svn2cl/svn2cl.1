@@ -112,6 +112,18 @@ An author file should look something like:
     </authors>
 .ft R
 .br
+The <author> tag can contain xml subtags.
+This is useful for embedding html into the result.
+For this to work the some namespace information should be included:
+.ft B
+    <?xml version="1.0" encoding="utf-8"?>
+    <authors xmlns:html="http://www.w3.org/1999/xhtml">
+      <author uid="arthur">
+        Arthur de Jong &lt;<html:b>arthur@ch.tudelft.nl</html:b>&gt;
+      </author>
+    </authors>
+.ft R
+.br
 As a bonus an authors file that looks like the following is internally converted to the xml represantation:
 .ft B
     arthur:Arthur de Jong <arthur@ch.tudelft.nl>
