@@ -208,22 +208,32 @@
  <xsl:template match="author">
   <xsl:variable name="uid" select="normalize-space(.)" />
   <!-- try to lookup author in authorsfile -->
-  <xsl:variable name="author">
    <xsl:if test="$authorsfile!=''">
     <xsl:for-each select="$authors-top">
-     <xsl:value-of select="normalize-space(key('author-lookup',$uid))" />
+     <xsl:variable name="author" select="key('author-lookup',$uid)" />
+     <!-- present result -->
+     <xsl:choose>
+      <xsl:when test="string($author/.)">
+       <xsl:apply-templates select="$author/node()" mode="copy" />
+      </xsl:when>
+      <xsl:otherwise>
+       <xsl:value-of select="$uid" />
+      </xsl:otherwise>
+     </xsl:choose>
     </xsl:for-each>
    </xsl:if>
-  </xsl:variable>
-  <!-- present result -->
-  <xsl:choose>
-   <xsl:when test="string($author)">
-    <xsl:value-of select="$author" />
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:value-of select="$uid" />
-   </xsl:otherwise>
-  </xsl:choose>
+ </xsl:template>
+
+ <!-- copy but normalize text -->
+ <xsl:template match="text()" mode="copy">
+  <xsl:value-of select="normalize-space(.)" />
+ </xsl:template>
+
+ <!-- simple copy template -->
+ <xsl:template match="@*|node()" mode="copy">
+  <xsl:copy>
+   <xsl:apply-templates select="@*|node()" mode="copy"/>
+  </xsl:copy>
  </xsl:template>
 
  <!-- present a list of paths names -->
