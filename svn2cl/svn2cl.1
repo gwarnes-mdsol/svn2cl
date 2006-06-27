@@ -80,20 +80,20 @@ Paragraphs are separated by empty lines.
 
 .TP
 \fB\-\-title\fR=\fINAME\fR
-If outputting an html file the \fINAME\fR is used as the title.
+If outputting an HTML file the \fINAME\fR is used as the title.
 This option is ignored for normal text output.
 
 .TP
 \fB\-\-revision\-link\fR=\fINAME\fR
-This option is used to generate links from the revision numbers in the generated html file.
+This option is used to generate links from the revision numbers in the generated HTML file.
 If \fINAME\fR contains two hashes `\fB##\fP' that part will be replaced by the revision number, otherwise the revision number will be appended to \fINAME\fR.
-Only the first occurence of `\fB##\fP' will be replaced.
+Only the first occurrence of `\fB##\fP' will be replaced.
 .br
 This option is ignored for normal text output.
 
 .TP
 \fB\-o\fR, \fB\-f\fR, \fB\-\-output\fR=\fIFILE\fR, \fB\-\-file\fR=\fIFILE\fR
-Output ChangeLog to \fIFILE\fR instead of the default \fBChangeLog\fP (or \fBChangeLog.html\fP for html output).
+Output ChangeLog to \fIFILE\fR instead of the default \fBChangeLog\fP (or \fBChangeLog.html\fP for HTML output).
 
 .TP
 \fB\-\-stdout\fR
@@ -129,13 +129,13 @@ As a bonus an authors file that looks like the following is internally converted
     arthur:Arthur de Jong <arthur@ch.tudelft.nl>
 .ft R
 .br
-Note that the \-\-authors option has pretty poor performance at the moment.
+Note that the \-\-authors option can have poor performance in some cases.
 
 .TP
 \fB\-\-html\fR
-Generate an html file containing a ChangeLog instead of the default text ChangeLog file.
+Generate an HTML file containing a ChangeLog instead of the default text ChangeLog file.
 This feature is still experimental.
-The \fBsvn2html.css\fP file that is included in the distribution can be used to format the html.
+The \fBsvn2html.css\fP file that is included in the distribution can be used to format the HTML.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR
