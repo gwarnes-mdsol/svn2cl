@@ -49,12 +49,12 @@ REPARAGRAPH="no"
 SEPARATEDAYLOGS="no"
 CHANGELOG=""
 OUTSTYLE="cl"
-SVNCMD="svn --verbose --xml log"
+SVNLOGCMD="svn --verbose --xml log"
+SVNINFOCMD="svn info"
 AUTHORSFILE=""
 TITLE="ChangeLog"
 REVISION_LINK="#r"
 TMPFILES=""
-PATHS=""
 
 # do command line checking
 prog=`basename $0`
@@ -137,21 +137,44 @@ do
       OUTSTYLE="html"
       shift
       ;;
-    -r|--revision|--targets|--username|--password|--config-dir|--limit)
+    -r|--revision|--targets|--limit)
       # add these as extra options to the command (with argument)
       arg=`echo "$2" | sed "s/'/'\"'\"'/g"`
-      SVNCMD="$SVNCMD $1 '$arg'"
+      SVNLOGCMD="$SVNLOGCMD $1 '$arg'"
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
-    --revision=*|--targets=*|--username=*|--password=*|--config-dir=*|--limit=*)
+    --username|--password|--config-dir)
+      # add these as extra options to the command (with argument)
+      arg=`echo "$2" | sed "s/'/'\"'\"'/g"`
+      SVNLOGCMD="$SVNLOGCMD $1 '$arg'"
+      # also add to svn info command
+      SVNINFOCMD="$SVNINFOCMD $1 '$arg'"
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
+      ;;
+    --revision=*|--targets=*|--limit=*)
       # these are single argument versions of the above
       arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
-      SVNCMD="$SVNCMD '$arg'"
+      SVNLOGCMD="$SVNLOGCMD '$arg'"
       shift
       ;;
-    --stop-on-copy|--no-auth-cache|--non-interactive)
+    --username=*|--password=*|--config-dir=*)
+      # these are single argument versions of the above
+      arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
+      SVNLOGCMD="$SVNLOGCMD '$arg'"
+      # also add to svn info command
+      SVNINFOCMD="$SVNINFOCMD '$arg'"
+      shift
+      ;;
+    --stop-on-copy)
       # add these as simple options
-      SVNCMD="$SVNCMD $1"
+      SVNLOGCMD="$SVNLOGCMD $1"
+      shift
+      ;;
+    --no-auth-cache|--non-interactive)
+      # add these as simple options
+      SVNLOGCMD="$SVNLOGCMD $1"
+      # also add to svn info command
+      SVNINFOCMD="$SVNINFOCMD $1"
       shift
       ;;
     -V|--version)
@@ -199,8 +222,8 @@ do
       ;;
     *)
       arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
-      SVNCMD="$SVNCMD '$arg'"
-      PATHS="$PATHS '$arg'"
+      SVNLOGCMD="$SVNLOGCMD '$arg'"
+      SVNINFOCMD="$SVNINFOCMD '$arg'"
       shift
       ;;
   esac
@@ -250,7 +273,7 @@ fi
 if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
 then
   # FIXME: this breaks with spaces in repository names
-  STRIPPREFIX=`eval "svn info $PATHS" | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
+  STRIPPREFIX=`eval "$SVNINFOCMD" 2> /dev/null | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
 fi
 
 # redirect stdout to the changelog file if needed
@@ -260,7 +283,7 @@ then
 fi
 
 # actually run the command we need
-eval "$SVNCMD" | \
+eval "$SVNLOGCMD" | \
   xsltproc --stringparam strip-prefix "$STRIPPREFIX" \
            --stringparam linelen "$LINELEN" \
            --stringparam groupbyday "$GROUPBYDAY" \
