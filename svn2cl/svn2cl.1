@@ -102,32 +102,7 @@ Output ChangeLog to stdout instead of to a file.
 .TP
 \fB\-\-authors\fR=\fIFILE\fR
 The \fIFILE\fR is used to map author names as exported by svn to full names.
-An author file should look something like:
-.ft B
-    <?xml version="1.0" encoding="utf-8"?>
-    <authors>
-      <author uid="arthur">
-        Arthur de Jong &lt;arthur@ch.tudelft.nl&gt;
-      </author>
-    </authors>
-.ft R
-.br
-The <author> tag can contain xml subtags.
-This is useful for embedding html into the result.
-For this to work the some namespace information should be included:
-.ft B
-    <?xml version="1.0" encoding="utf-8"?>
-    <authors xmlns:html="http://www.w3.org/1999/xhtml">
-      <author uid="arthur">
-        Arthur de Jong &lt;<html:b>arthur@ch.tudelft.nl</html:b>&gt;
-      </author>
-    </authors>
-.ft R
-.br
-As a bonus an authors file that looks like the following is internally converted to the xml represantation:
-.ft B
-    arthur:Arthur de Jong <arthur@ch.tudelft.nl>
-.ft R
+See the section on AUTHORS FILES below for more information.
 .br
 Note that the \-\-authors option can have poor performance in some cases.
 
@@ -150,6 +125,39 @@ Optional PATH arguments and the following options are passed directly to the `\f
 \fB\-r\fR, \fB\-\-revision\fR, \fB\-\-targets\fR, \fB\-\-stop\-on\-copy\fR, \fB\-\-username\fR, \fB\-\-password\fR, \fB\-\-no\-auth\-cache\fR, \fB\-\-non\-interactive\fR, \fB\-\-config\-dir\fR and \fB\-\-limit\fR.
 .br
 See `\fBsvn help log\fP' for more information on these options.
+
+.SH "AUTHORS FILES"
+
+An authors file is basically an XML file that should look something like:
+.ft B
+    <?xml version="1.0" encoding="utf-8"?>
+    <authors>
+      <author uid="arthur">
+        Arthur de Jong &lt;arthur@ch.tudelft.nl&gt;
+      </author>
+    </authors>
+.ft R
+.br
+svn2cl searches for <author> tags with the specified uid attribute.
+The content from the author tag is substituted for the author name.
+
+The <author> tag may also contain XML child tags which can be useful for embedding HTML into the result.
+For this to work namespace information should be included for HTML output:
+.ft B
+    <?xml version="1.0" encoding="utf-8"?>
+    <authors xmlns:html="http://www.w3.org/1999/xhtml">
+      <author uid="arthur">
+        Arthur de Jong &lt;<html:b>arthur@ch.tudelft.nl</html:b>&gt;
+      </author>
+    </authors>
+.ft R
+.br
+The svn2cl distribution contains a sample authors.xml file.
+
+As a bonus a plain text authors file that looks like the following is automatically converted to the XML representation:
+.ft B
+    arthur:Arthur de Jong <arthur@ch.tudelft.nl>
+.ft R
 
 .SH "EXAMPLES"
 
