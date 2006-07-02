@@ -208,7 +208,8 @@
  <xsl:template match="author">
   <xsl:variable name="uid" select="normalize-space(.)" />
   <!-- try to lookup author in authorsfile -->
-   <xsl:if test="$authorsfile!=''">
+  <xsl:choose>
+   <xsl:when test="$authorsfile!=''">
     <xsl:for-each select="$authors-top">
      <xsl:variable name="author" select="key('author-lookup',$uid)" />
      <!-- present result -->
@@ -221,7 +222,11 @@
       </xsl:otherwise>
      </xsl:choose>
     </xsl:for-each>
-   </xsl:if>
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="$uid" />
+   </xsl:otherwise>
+  </xsl:choose>
  </xsl:template>
 
  <!-- copy but normalize text -->
