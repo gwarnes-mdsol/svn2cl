@@ -236,8 +236,8 @@ do
   dir=`dirname "$prog"`
   prog=`ls -ld "$prog" | sed "s/^.*-> \(.*\)/\1/;/^[^/]/s,^,$dir/,"`
 done
-dir=`dirname $prog`
-dir=`cd $dir && pwd`
+dir=`dirname "$prog"`
+dir=`cd "$dir" && pwd`
 XSL="$dir/svn2${OUTSTYLE}.xsl"
 
 # check if the authors file is formatted as a legacy
