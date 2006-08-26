@@ -78,13 +78,13 @@
  <xsl:template match="log">
   <html>
    <head>
-    <title><xsl:value-of select="string($title)"/></title>
+    <title><xsl:value-of select="string($title)" /></title>
     <link rel="stylesheet" href="svn2html.css" type="text/css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    </head>
    <body>
     <xsl:if test="$title">
-     <h1><xsl:value-of select="string($title)"/></h1>
+     <h1><xsl:value-of select="string($title)" /></h1>
     </xsl:if>
     <ul class="changelog_entries">
      <xsl:apply-templates />
@@ -175,7 +175,7 @@
   </li>
  </xsl:template>
 
- <!-- template to replace line breaks with <br/> tags -->
+ <!-- template to replace line breaks with <br /> tags -->
  <xsl:template name="newlinestobr">
   <xsl:param name="txt" />
   <xsl:choose>
