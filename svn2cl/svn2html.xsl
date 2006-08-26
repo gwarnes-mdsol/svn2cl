@@ -14,7 +14,7 @@
                 ++stringparam revision-link NAME \ 
                 svn2html.xsl - > ChangeLog.html
 
-   This file is partially based on svn2cl.xsl.
+   This file is partially based on (and includes) svn2cl.xsl.
 
    Copyright (C) 2005, 2006 Arthur de Jong.
 
