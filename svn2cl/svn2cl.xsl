@@ -94,12 +94,12 @@
 
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
- <xsl:key name="author-lookup" match="author" use="@uid"/>
- <xsl:variable name="authors-top" select="document($authorsfile)/authors"/>
+ <xsl:key name="author-lookup" match="author" use="@uid" />
+ <xsl:variable name="authors-top" select="document($authorsfile)/authors" />
 
  <!-- add newlines at the end of the changelog -->
  <xsl:template match="log">
-  <xsl:apply-templates/>
+  <xsl:apply-templates />
   <xsl:text>&newl;</xsl:text>
  </xsl:template>
 
@@ -237,7 +237,7 @@
  <!-- simple copy template -->
  <xsl:template match="@*|node()" mode="copy">
   <xsl:copy>
-   <xsl:apply-templates select="@*|node()" mode="copy"/>
+   <xsl:apply-templates select="@*|node()" mode="copy" />
   </xsl:copy>
  </xsl:template>
 
