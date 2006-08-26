@@ -273,7 +273,7 @@ fi
 if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
 then
   # FIXME: this breaks with spaces in repository names
-  STRIPPREFIX=`eval "$SVNINFOCMD" 2> /dev/null | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
+  STRIPPREFIX=`LANG=C eval "$SVNINFOCMD" 2> /dev/null | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
 fi
 
 # redirect stdout to the changelog file if needed
