@@ -45,7 +45,7 @@
 
 -->
 
-<!DOCTYPE stylesheet [
+<!DOCTYPE xsl:stylesheet [
  <!ENTITY newl "&#10;">
  <!ENTITY space "&#32;">
 ]>
