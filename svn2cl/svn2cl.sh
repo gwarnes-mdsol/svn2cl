@@ -89,8 +89,13 @@ do
       INCLUDEREV="yes";
       shift
       ;;
-    --break-before-msg)
+    --break-before-msg|--breaks-before-msg)
+      # FIXME: if next argument is numeric use that as a parameter 
       BREAKBEFOREMSG="yes"
+      shift
+      ;;
+    --break-before-msg=*|--breaks-before-msg=*)
+      BREAKBEFOREMSG=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --reparagraph)
@@ -196,8 +201,8 @@ do
       echo "  --group-by-day       group changelog entries by day"
       echo "  --separate-daylogs   put a blank line between grouped by day entries"
       echo "  -i, --include-rev    include revision numbers"
-      echo "  --break-before-msg   add a line break between the log paths and"
-      echo "                       log message"
+      echo "  --break-before-msg[=NUM]  add a line break (or multiple breaks)"
+      echo "                       between the paths and the log message"
       echo "  --reparagraph        rewrap lines inside a paragraph"
       echo "  --title=NAME         title used in html file"
       echo "  --revision-link=NAME link revision numbers in html output"

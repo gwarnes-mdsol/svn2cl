@@ -13,7 +13,7 @@
                 ++stringparam groupbyday yes \
                 ++stringparam separate-daylogs yes \
                 ++stringparam include-rev yes \
-                ++stringparam breakbeforemsg yes \
+                ++stringparam breakbeforemsg yes/2 \
                 ++stringparam reparagraph yes \
                 ++stringparam authorsfile FILE \
                 svn2cl.xsl - > ChangeLog
@@ -175,9 +175,16 @@
   <!-- trim trailing newlines -->
   <xsl:variable name="msg">
    <!-- add a line break before the log message -->
-   <xsl:if test="$breakbeforemsg='yes'">
-    <xsl:text>&newl;</xsl:text>
-   </xsl:if>
+   <xsl:choose>
+    <xsl:when test="$breakbeforemsg='yes'">
+     <xsl:text>&newl;</xsl:text>
+    </xsl:when>
+    <xsl:when test="number($breakbeforemsg)&gt;0">
+     <xsl:call-template name="newlines">
+      <xsl:with-param name="count" select="number($breakbeforemsg)" />
+     </xsl:call-template>
+    </xsl:when>
+   </xsl:choose>
    <xsl:call-template name="trim-newln">
     <xsl:with-param name="txt" select="msg" />
    </xsl:call-template>
@@ -413,6 +420,17 @@
     <xsl:value-of select="$txt" />
    </xsl:otherwise>
   </xsl:choose>
+ </xsl:template>
+
+ <!-- insert a number of newlines -->
+ <xsl:template name="newlines">
+  <xsl:param name="count" />
+  <xsl:text>&newl;</xsl:text>
+  <xsl:if test="$count&gt;1">
+   <xsl:call-template name="newlines">
+    <xsl:with-param name="count" select="($count)-1" />
+   </xsl:call-template>
+  </xsl:if>
  </xsl:template>
 
 </xsl:stylesheet>
