@@ -277,8 +277,8 @@ fi
 # try to determin a prefix to strip from all paths
 if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
 then
-  # FIXME: this breaks with spaces in repository names
   STRIPPREFIX=`LANG=C eval "$SVNINFOCMD" 2> /dev/null | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{gsub("^.*/","",url);print url}}'`
+  STRIPPREFIX=`echo "$STRIPPREFIX" | sed 's/%20/ /g'`
 fi
 
 # redirect stdout to the changelog file if needed
