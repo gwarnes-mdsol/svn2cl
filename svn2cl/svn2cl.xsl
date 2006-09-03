@@ -324,6 +324,7 @@
  <!-- string-wrapping template -->
  <xsl:template name="wrap">
   <xsl:param name="txt" />
+  <xsl:variable name="normtxt" select="normalize-space($txt)" />
   <xsl:choose>
    <xsl:when test="contains($txt,'&newl;')">
      <!-- text contains newlines, do the first line -->
@@ -337,24 +338,26 @@
       <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
      </xsl:call-template>
    </xsl:when>
-   <xsl:when test="(string-length($txt) &lt; (($linelen)-9)) or not(contains($txt,' '))">
+   <xsl:when test="(string-length($normtxt) &lt; (($linelen)-9)) or not(contains($normtxt,' '))">
     <!-- this is easy, nothing to do -->
-    <xsl:value-of select="normalize-space($txt)" />
+    <xsl:value-of select="$normtxt" />
     <!-- add newline -->
     <xsl:text>&newl;</xsl:text>
    </xsl:when>
    <xsl:otherwise>
     <!-- find the first line -->
-    <xsl:variable name="tmp" select="normalize-space(substring($txt,1,(($linelen)-10)))" />
+    <xsl:variable name="tmp" select="substring($normtxt,1,(($linelen)-9))" />
     <xsl:variable name="line">
      <xsl:choose>
+      <!-- if our attempt contains spaces wrap on that -->
       <xsl:when test="contains($tmp,' ')">
        <xsl:call-template name="find-line">
         <xsl:with-param name="txt" select="$tmp" />
        </xsl:call-template>
       </xsl:when>
+      <!-- otherwise use the first non-space characters from the text -->
       <xsl:otherwise>
-       <xsl:value-of select="substring-before($txt,' ')" />
+       <xsl:value-of select="substring-before($normtxt,' ')" />
       </xsl:otherwise>
      </xsl:choose>
     </xsl:variable>
@@ -364,7 +367,7 @@
     <xsl:text>&newl;&tab;&space;&space;</xsl:text>
     <!-- wrap the rest of the text -->
     <xsl:call-template name="wrap">
-     <xsl:with-param name="txt" select="normalize-space(substring($txt,string-length($line)+1))" />
+     <xsl:with-param name="txt" select="normalize-space(substring($normtxt,string-length($line)+1))" />
     </xsl:call-template>
    </xsl:otherwise>
   </xsl:choose>
@@ -374,8 +377,8 @@
  <xsl:template name="find-line">
   <xsl:param name="txt" />
   <xsl:choose>
-   <xsl:when test="substring($txt,string-length($txt),1) = ' '">
-    <xsl:value-of select="$txt" />
+   <xsl:when test="substring($txt,string-length($txt),1)=' '">
+    <xsl:value-of select="substring($txt,1,string-length($txt)-1)" />
    </xsl:when>
    <xsl:otherwise>
     <xsl:call-template name="find-line">
