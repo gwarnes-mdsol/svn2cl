@@ -345,7 +345,7 @@
    </xsl:when>
    <xsl:otherwise>
     <!-- find the first line -->
-    <xsl:variable name="tmp" select="substring($txt,1,(($linelen)-10))" />
+    <xsl:variable name="tmp" select="normalize-space(substring($txt,1,(($linelen)-10)))" />
     <xsl:variable name="line">
      <xsl:choose>
       <xsl:when test="contains($tmp,' ')">
@@ -354,16 +354,17 @@
        </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-       <xsl:value-of select="normalize-space(substring-before($txt,' '))" />
+       <xsl:value-of select="substring-before($txt,' ')" />
       </xsl:otherwise>
      </xsl:choose>
     </xsl:variable>
+    <!-- print line -->
+    <xsl:value-of select="$line" />
     <!-- print newline and tab -->
-    <xsl:value-of select="normalize-space($line)" />
     <xsl:text>&newl;&tab;&space;&space;</xsl:text>
     <!-- wrap the rest of the text -->
     <xsl:call-template name="wrap">
-     <xsl:with-param name="txt" select="substring($txt,string-length($line)+1)" />
+     <xsl:with-param name="txt" select="normalize-space(substring($txt,string-length($line)+1))" />
     </xsl:call-template>
    </xsl:otherwise>
   </xsl:choose>
