@@ -36,7 +36,7 @@ set -e
 set -u
 
 # svn2cl version
-VERSION="0.7"
+VERSION="0.8"
 
 # set default parameters
 PWD=`pwd`
