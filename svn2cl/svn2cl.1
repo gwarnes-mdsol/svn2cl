@@ -34,7 +34,7 @@ svn2cl \- Create a ChangeLog from a subversion log.
 .RI [ PATH ]...
 
 .SH "DESCRIPTION"
-\fBsvn2cl\fP generates a classic GNU-style ChangeLog from the log messages in a subversion repository.
+\fBsvn2cl\fP generates a classic GNU\-style ChangeLog from the log messages in a subversion repository.
 It acts as a wrapper around the `\fBsvn log\fP' command, parsing the XML output with an XSLT stylesheet.
 Alternatively it can generate HTML output intended for use with the \fBsvn2html.css\fP style sheet that comes with \fBsvn2cl\fP.
 
@@ -69,13 +69,13 @@ Include the subversion revision number in the ChangeLog.
 If the \-\-html option is specified this is implied, edit \fBsvn2html.css\fP to turn it off.
 
 .TP
-\fB\-\-break-before-msg\fR[=\fINUM\fR]
+\fB\-\-break\-before\-msg\fR[=\fINUM\fR]
 Add a line break (or multiple line breadks) between the paths and the log message.
 If the \-\-html option is specified this option is ignored, edit \fBsvn2html.css\fP to set spacing.
 
 .TP
 \fB\-\-reparagraph\fR
-Newlines inside paragraphs are ignored and paragraphs are re-wrapped.
+Newlines inside paragraphs are ignored and paragraphs are re\-wrapped.
 Paragraphs are separated by empty lines.
 
 .TP
@@ -130,7 +130,7 @@ See `\fBsvn help log\fP' for more information on these options.
 
 An authors file is basically an XML file that should look something like:
 .ft B
-    <?xml version="1.0" encoding="utf-8"?>
+    <?xml version="1.0" encoding="utf\-8"?>
     <authors>
       <author uid="arthur">
         Arthur de Jong &lt;arthur@ch.tudelft.nl&gt;
@@ -144,7 +144,7 @@ The content from the author tag is substituted for the author name.
 The <author> tag may also contain XML child tags which can be useful for embedding HTML into the result.
 For this to work namespace information should be included for HTML output:
 .ft B
-    <?xml version="1.0" encoding="utf-8"?>
+    <?xml version="1.0" encoding="utf\-8"?>
     <authors xmlns:html="http://www.w3.org/1999/xhtml">
       <author uid="arthur">
         Arthur de Jong &lt;<html:b>arthur@ch.tudelft.nl</html:b>&gt;
@@ -168,7 +168,7 @@ Run svn log recursively on the current directory and generate a text ChangeLog f
 
 Output the changes from the last week, while including revision numbers in the ChangeLog:
 .ft B
-    svn2cl \-i \-r "HEAD:{`date -d '7 days ago' '+%F %T'`}"
+    svn2cl \-i \-r "HEAD:{`date \-d '7 days ago' '+%F %T'`}"
 .ft R
 .br
 (actually subversion will include the first revision before the specified period)
