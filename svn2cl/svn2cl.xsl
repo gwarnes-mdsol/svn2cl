@@ -18,13 +18,14 @@
                 ++stringparam breakbeforemsg yes/2 \
                 ++stringparam reparagraph yes \
                 ++stringparam authorsfile FILE \
+                ++stringparam ignore-message-starting \
                 svn2cl.xsl - > ChangeLog
 
    This file is based on several implementations of this conversion
    that I was not completely happy with and some other common
    xslt constructs found on the web.
 
-   Copyright (C) 2004, 2005, 2006 Arthur de Jong.
+   Copyright (C) 2004, 2005, 2006, 2007 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -94,14 +95,26 @@
  <!-- whether the message should be rewrapped within one paragraph -->
  <xsl:param name="reparagraph" select="'no'" />
 
+ <!-- whether certain messages should be ignored -->
+ <xsl:param name="ignore-message-starting" select="''" />
+
  <!-- location of authors file if any -->
  <xsl:param name="authorsfile" select="''" />
  <xsl:key name="author-lookup" match="author" use="@uid" />
  <xsl:variable name="authors-top" select="document($authorsfile)/authors" />
 
- <!-- add newlines at the end of the changelog -->
+ <!-- match the topmost log entry -->
  <xsl:template match="log">
-  <xsl:apply-templates />
+  <xsl:choose>
+   <xsl:when test="$ignore-message-starting != ''">
+    <!-- only handle logentries with don't contain the string -->
+    <xsl:apply-templates select="logentry[not(starts-with(msg,$ignore-message-starting))]" />
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:apply-templates select="logentry" />
+   </xsl:otherwise>
+  </xsl:choose>
+  <!-- add newlines at the end of the changelog -->
   <xsl:text>&newl;</xsl:text>
  </xsl:template>
 
