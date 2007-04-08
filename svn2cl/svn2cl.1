@@ -27,14 +27,14 @@
 .TH "svn2cl" "1" "Sep 2006" "Version 0.8" "User Commands"
 .nh
 .SH "NAME"
-svn2cl \- Create a ChangeLog from a subversion log.
+svn2cl - Create a ChangeLog from a subversion log.
 .SH "SYNOPSIS"
 .B svn2cl
 .RI [ OPTION ]...
 .RI [ PATH ]...
 
 .SH "DESCRIPTION"
-\fBsvn2cl\fP generates a classic GNU\-style ChangeLog from the log messages in a subversion repository.
+\fBsvn2cl\fP generates a classic GNU-style ChangeLog from the log messages in a subversion repository.
 It acts as a wrapper around the `\fBsvn log\fP' command, parsing the XML output with an XSLT stylesheet.
 Alternatively it can generate HTML output intended for use with the \fBsvn2html.css\fP style sheet that comes with \fBsvn2cl\fP.
 
@@ -75,7 +75,7 @@ If the \-\-html option is specified this option is ignored, edit \fBsvn2html.css
 
 .TP
 \fB\-\-reparagraph\fR
-Newlines inside paragraphs are ignored and paragraphs are re\-wrapped.
+Newlines inside paragraphs are ignored and paragraphs are re-wrapped.
 Paragraphs are separated by empty lines.
 
 .TP
