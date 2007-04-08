@@ -1,3 +1,32 @@
+2007-04-08 12:34  arthur
+
+	* [r111] svn2cl.1: unescape some hyphens that are not minus symbols
+
+2007-03-31 13:45  arthur
+
+	* [r110] svn2cl.xsl: completely ignore files that do not start with
+	  the specified prefix if --strip-prefix is specified
+
+2007-03-31 10:47  arthur
+
+	* [r109] svn2cl.1, svn2cl.sh, svn2cl.xsl, svn2html.xsl: add an
+	  option --ignore-message-starting to ignore any log messages that
+	  start with the specified string
+
+2006-10-19 19:18  arthur
+
+	* [r108] svn2cl.1: change hyphens into minus symbols (thanks
+	  lintian)
+
+2006-10-18 21:38  arthur
+
+	* [r106] NEWS: fix news
+
+2006-10-18 21:38  arthur
+
+	* [r105] ChangeLog, NEWS, README, TODO, svn2cl.1, svn2cl.sh,
+	  svn2cl.xsl, svn2html.xsl: get files ready for 0.8 release
+
 2006-10-18 21:27  arthur
 
 	* [r104] README: add note about VBScript port by Iwasa Kazmi
@@ -311,11 +340,11 @@
 
 2005-12-04 21:26  arthur
 
-	* [r38] ., -0.4: move directory back
+	* [r38] .: move directory back
 
 2005-12-04 21:26  arthur
 
-	* [r37] ., -0.4: make release 0.4
+	* [r37] .: make release 0.4
 
 2005-12-04 21:23  arthur
 
