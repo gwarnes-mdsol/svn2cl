@@ -69,6 +69,11 @@ Include the subversion revision number in the ChangeLog.
 If the \-\-html option is specified this is implied, edit \fBsvn2html.css\fP to turn it off.
 
 .TP
+\fB\-\-include\-actions\fR
+Add action labels [ADD], [DEL] and [CPY] tags to files to show the operation
+that is performned on the files.
+
+.TP
 \fB\-\-break\-before\-msg\fR[=\fINUM\fR]
 Add a line break (or multiple line breadks) between the paths and the log message.
 If the \-\-html option is specified this option is ignored, edit \fBsvn2html.css\fP to set spacing.
@@ -182,7 +187,8 @@ Generate an HTML changelog for svn://svn.example.com/project/trunk, removing "pr
 Group all commits per day into one ChangeLog entry and only include changes from 2005:
 .ft B
     svn2cl \-\-html \-\-strip\-prefix=project/trunk \-\-group\-by\-day \e
-           \-r '{2006\-01\-01}:{2005\-01\-01}' svn://svn.example.com/project/trunk
+           \-r '{2006\-01\-01}:{2005\-01\-01}' \e
+           svn://svn.example.com/project/trunk
 .ft R
 
 .SH "SEE ALSO"

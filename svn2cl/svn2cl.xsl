@@ -15,6 +15,7 @@
                 ++stringparam groupbyday yes \
                 ++stringparam separate-daylogs yes \
                 ++stringparam include-rev yes \
+                ++stringparam include-actions yes \
                 ++stringparam breakbeforemsg yes/2 \
                 ++stringparam reparagraph yes \
                 ++stringparam authorsfile FILE \
@@ -88,6 +89,9 @@
 
  <!-- whether a revision number should be included -->
  <xsl:param name="include-rev" select="'no'" />
+
+ <!-- whether aaction labels should be added to files -->
+ <xsl:param name="include-actions" select="'no'" />
 
  <!-- whether the log message should start on a new line -->
  <xsl:param name="breakbeforemsg" select="'no'" />
@@ -301,6 +305,10 @@
      <xsl:call-template name="printpath">
       <xsl:with-param name="path" select="substring(normalize-space(.),string-length($strip-prefix)+3)" />
      </xsl:call-template>
+     <!-- add the action flag -->
+     <xsl:if test="$include-actions='yes'">
+      <xsl:apply-templates select="." mode="action"/>
+     </xsl:if>
     </xsl:for-each>
    </xsl:when>
    <!-- print a simple list of all paths -->
@@ -313,8 +321,26 @@
      </xsl:if>
      <!-- print the path name -->
      <xsl:value-of select="normalize-space(.)" />
+     <!-- add the action flag -->
+     <xsl:if test="$include-actions='yes'">
+      <xsl:apply-templates select="." mode="action"/>
+     </xsl:if>
     </xsl:for-each>
    </xsl:otherwise>
+  </xsl:choose>
+ </xsl:template>
+
+ <xsl:template match="path" mode="action">
+  <xsl:choose>
+   <xsl:when test="@action='D'">
+    <xsl:text>[DEL]</xsl:text>
+   </xsl:when>
+   <xsl:when test="@copyfrom-path">
+    <xsl:text>[CPY]</xsl:text>
+   </xsl:when>
+   <xsl:when test="@action='D'">
+    <xsl:text>[ADD]</xsl:text>
+   </xsl:when>
   </xsl:choose>
  </xsl:template>
 
