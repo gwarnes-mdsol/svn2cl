@@ -47,6 +47,7 @@ INCLUDEREV="no"
 BREAKBEFOREMSG="no"
 REPARAGRAPH="no"
 SEPARATEDAYLOGS="no"
+ACTIONS="no"
 CHANGELOG=""
 OUTSTYLE="cl"
 SVNLOGCMD="svn --verbose --xml log"
@@ -88,6 +89,10 @@ do
       ;;
     -i|--include-rev)
       INCLUDEREV="yes";
+      shift
+      ;;
+    --include-actions)
+      ACTIONS="yes"
       shift
       ;;
     --break-before-msg|--breaks-before-msg)
@@ -210,6 +215,7 @@ do
       echo "  --group-by-day       group changelog entries by day"
       echo "  --separate-daylogs   put a blank line between grouped by day entries"
       echo "  -i, --include-rev    include revision numbers"
+      echo "  --include-actions     add [ADD], [DEL] and [CPY] tags to files"
       echo "  --break-before-msg[=NUM]  add a line break (or multiple breaks)"
       echo "                       between the paths and the log message"
       echo "  --reparagraph        rewrap lines inside a paragraph"
@@ -305,6 +311,7 @@ eval "$SVNLOGCMD" | \
            --stringparam groupbyday "$GROUPBYDAY" \
            --stringparam separate-daylogs "$SEPARATEDAYLOGS" \
            --stringparam include-rev "$INCLUDEREV" \
+           --stringparam include-actions "$ACTIONS" \
            --stringparam breakbeforemsg "$BREAKBEFOREMSG" \
            --stringparam reparagraph "$REPARAGRAPH" \
            --stringparam authorsfile "$AUTHORSFILE" \
