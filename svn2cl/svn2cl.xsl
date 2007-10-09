@@ -80,7 +80,7 @@
 
  <!-- the length of a line to wrap messages at -->
  <xsl:param name="linelen" select="75" />
- 
+
  <!-- whether entries should be grouped by day -->
  <xsl:param name="groupbyday" select="'no'" />
 
@@ -181,7 +181,6 @@
   <!-- get paths string -->
   <xsl:variable name="paths">
    <xsl:apply-templates select="paths" />
-   <xsl:text>:&space;</xsl:text>
   </xsl:variable>
   <!-- get revision number -->
   <xsl:variable name="rev">
@@ -212,9 +211,17 @@
   <xsl:if test="$groupbyday='yes' and $separate-daylogs='yes'"><xsl:text>&newl;</xsl:text></xsl:if>
   <!-- first line is indented (other indents are done in wrap template) -->
   <xsl:text>&tab;*&space;</xsl:text>
+  <!-- set up the text to wrap -->
+  <xsl:variable name="txt">
+   <xsl:value-of select="$rev" />
+   <xsl:if test="$paths!=''">
+    <xsl:value-of select="concat($paths,':&space;')" />
+   </xsl:if>
+   <xsl:value-of select="$msg" />
+  </xsl:variable>
   <!-- print the paths and message nicely wrapped -->
   <xsl:call-template name="wrap">
-   <xsl:with-param name="txt" select="concat($rev,$paths,$msg)" />
+   <xsl:with-param name="txt" select="$txt" />
   </xsl:call-template>
  </xsl:template>
 
