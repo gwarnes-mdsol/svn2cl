@@ -35,10 +35,10 @@ svn2cl - Create a ChangeLog from a subversion log.
 
 .SH "DESCRIPTION"
 \fBsvn2cl\fP generates a classic GNU-style ChangeLog from the log messages in a subversion repository.
-It acts as a wrapper around the `\fBsvn log\fP' command, parsing the XML output with an XSLT stylesheet.
+It acts as a wrapper around the '\fBsvn log\fP' command, parsing the XML output with an XSLT stylesheet.
 Alternatively it can generate HTML output intended for use with the \fBsvn2html.css\fP style sheet that comes with \fBsvn2cl\fP.
 
-In addition to its own options, it accepts and passes along most svn log options; see `\fBsvn help log\fP' for a list of those and their documentation.
+In addition to its own options, it accepts and passes along most svn log options; see '\fBsvn help log\fP' for a list of those and their documentation.
 If PATH is not given, \fBsvn2cl\fP will run svn log on the current directory, so it should do the right thing when run from the top of a subversion checkout of the project.
 
 .TP
@@ -91,8 +91,8 @@ This option is ignored for normal text output.
 .TP
 \fB\-\-revision\-link\fR=\fINAME\fR
 This option is used to generate links from the revision numbers in the generated HTML file.
-If \fINAME\fR contains two hashes `\fB##\fP' that part will be replaced by the revision number, otherwise the revision number will be appended to \fINAME\fR.
-Only the first occurrence of `\fB##\fP' will be replaced.
+If \fINAME\fR contains two hashes '\fB##\fP' that part will be replaced by the revision number, otherwise the revision number will be appended to \fINAME\fR.
+Only the first occurrence of '\fB##\fP' will be replaced.
 .br
 This option is ignored for normal text output.
 
@@ -131,10 +131,10 @@ Show short summary of options.
 Show version of program.
 
 .PP
-Optional PATH arguments and the following options are passed directly to the `\fBsvn \-\-xml log\fP' command:
+Optional PATH arguments and the following options are passed directly to the '\fBsvn \-\-xml log\fP' command:
 \fB\-r\fR, \fB\-\-revision\fR, \fB\-\-targets\fR, \fB\-\-stop\-on\-copy\fR, \fB\-\-username\fR, \fB\-\-password\fR, \fB\-\-no\-auth\-cache\fR, \fB\-\-non\-interactive\fR, \fB\-\-config\-dir\fR and \fB\-\-limit\fR.
 .br
-See `\fBsvn help log\fP' for more information on these options.
+See '\fBsvn help log\fP' for more information on these options.
 
 .SH "AUTHORS FILES"
 
@@ -192,7 +192,7 @@ Group all commits per day into one ChangeLog entry and only include changes from
 .ft R
 
 .SH "SEE ALSO"
-.BR `\fBsvn\ help\ log\fP'
+.BR '\fBsvn\ help\ log\fP'
 
 .SH "COPYRIGHT"
 Copyright \(co 2005, 2006, 2007 Arthur de Jong <arthur@ch.tudelft.nl>.
