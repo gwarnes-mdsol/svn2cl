@@ -234,12 +234,12 @@ do
       echo "PATH arguments and the following options are passed to the svn log"
       echo "command: -r, --revision, --targets --stop-on-copy, --username,"
       echo "--password, --no-auth-cache, --non-interactive, --config-dir and"
-      echo "--limit (see \`svn help log' for more information)."
+      echo "--limit (see 'svn help log' for more information)."
       exit 0
       ;;
     -*)
       echo "$prog: invalid option -- $1"
-      echo "Try \`$prog --help' for more information."
+      echo "Try '$prog --help' for more information."
       exit 1
       ;;
     *)
