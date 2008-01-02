@@ -48,7 +48,7 @@
 -->
 
 <!DOCTYPE xsl:stylesheet [
- <!ENTITY newl "&#10;">
+ <!ENTITY newl "&#38;#xA;">
  <!ENTITY space "&#32;">
 ]>
 
