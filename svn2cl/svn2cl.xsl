@@ -57,7 +57,7 @@
 
 <!DOCTYPE xsl:stylesheet [
  <!ENTITY tab "&#9;">
- <!ENTITY newl "&#10;">
+ <!ENTITY newl "&#38;#xA;">
  <!ENTITY space "&#32;">
 ]>
 
