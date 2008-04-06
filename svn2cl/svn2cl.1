@@ -169,6 +169,13 @@ As a bonus a plain text authors file that looks like the following is automatica
     arthur:Arthur de Jong <arthur@ch.tudelft.nl>
 .ft R
 
+.SH "NOTES"
+
+Note that the default revison range for \fBsvn log\fP is BASE:1.
+This means that \fBsvn2cl\fP will not always include the most recent revisons
+of the repository. Either run '\fBsvn update\fP' before running \fBsvn2cl\fP
+or pass '\fB\-r HEAD:1\fP'.
+
 .SH "EXAMPLES"
 
 Run svn log recursively on the current directory and generate a text ChangeLog file in the current directory for the entire log history:
