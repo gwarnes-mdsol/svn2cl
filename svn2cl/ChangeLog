@@ -1,3 +1,41 @@
+2008-04-06 13:27  arthur
+
+	* [r119] svn2cl.1: include not about default revision range that is
+	  used
+
+2008-04-06 12:25  arthur
+
+	* [r118] svn2cl.1, svn2cl.sh: make -a a short equivalent for
+	  --include-actions
+
+2008-01-02 21:55  arthur
+
+	* [r117] svn2cl.xsl, svn2html.xsl: escape the newline character
+	  reference in the entity definition of newl to perform the
+	  normalization at the right time (see
+	  http://mail-archives.apache.org/mod_mbox/xerces-c-dev/200010.mbox/%3COF274C146F.60A7FFAF-ON8525696D.0065F984@lotus.com%3E)
+
+2007-12-07 13:57  arthur
+
+	* [r116] README, svn2cl.1, svn2cl.sh: don't use backtick as quote
+	  character
+
+2007-10-09 20:00  arthur
+
+	* [r115] svn2cl.xsl: do not present file list if no files would be
+	  listed
+
+2007-09-25 20:03  arthur
+
+	* [r114] svn2cl.1, svn2cl.sh, svn2cl.xsl: add an --include-actions
+	  option that adds action labels about file additions and removals
+	  to the files in the log
+
+2007-04-08 12:47  arthur
+
+	* [r112] ChangeLog, NEWS, README, svn2cl.1, svn2cl.sh, svn2cl.xsl,
+	  svn2html.xsl: get files ready for 0.9 release
+
 2007-04-08 12:34  arthur
 
 	* [r111] svn2cl.1: unescape some hyphens that are not minus symbols
