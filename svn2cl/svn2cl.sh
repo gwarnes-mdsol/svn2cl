@@ -57,6 +57,7 @@ IGNORE_MESSAGE_STARTING=""
 TITLE="ChangeLog"
 REVISION_LINK="#r"
 TMPFILES=""
+AWK="awk"
 
 # do command line checking
 prog=`basename $0`
@@ -294,7 +295,7 @@ fi
 # try to determin a prefix to strip from all paths
 if [ "$STRIPPREFIX" = "AUTOMATICALLY-DETERMINED" ]
 then
-  STRIPPREFIX=`LANG=C eval "$SVNINFOCMD" 2> /dev/null | awk '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{n=split(url,u,"/");print u[n]}}'`
+  STRIPPREFIX=`LANG=C eval "$SVNINFOCMD" 2> /dev/null | $AWK '/^URL:/{url=$2} /^Repository Root:/{root=$3} END{if(root){print substr(url,length(root)+2)}else{n=split(url,u,"/");print u[n]}}'`
   STRIPPREFIX=`echo "$STRIPPREFIX" | sed 's/%20/ /g'`
 fi
 
