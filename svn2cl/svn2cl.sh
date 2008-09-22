@@ -289,7 +289,10 @@ AUTHORSFILE=`echo "$AUTHORSFILE" | sed "/^[^/]/s|^|$pwd/|"`
 if [ -z "$CHANGELOG" ]
 then
   CHANGELOG="ChangeLog"
-  [ "$OUTSTYLE" != "cl" ] && CHANGELOG="$CHANGELOG.$OUTSTYLE"
+  if [ "$OUTSTYLE" != "cl" ]
+  then
+    CHANGELOG="$CHANGELOG.$OUTSTYLE"
+  fi
 fi
 
 # try to determin a prefix to strip from all paths
