@@ -177,9 +177,14 @@
      <xsl:with-param name="txt" select="msg" />
     </xsl:call-template>
    </xsl:variable>
-   <span class="changelog_message">
+   <xsl:variable name="msg2">
     <xsl:call-template name="newlinestobr">
      <xsl:with-param name="txt" select="$msg" />
+    </xsl:call-template>
+   </xsl:variable>
+   <span class="changelog_message">
+    <xsl:call-template name="urlstolinks">
+     <xsl:with-param name="txt" select="$msg2" />
     </xsl:call-template>
    </span>
   </li>
@@ -203,6 +208,49 @@
     <xsl:value-of select="$txt" />
    </xsl:otherwise>
   </xsl:choose>
+ </xsl:template>
+
+ <!-- template to replace url-like strings with links -->
+ <xsl:template name="urlstolinks">
+  <xsl:param name="txt" />
+  <!-- see if the string contains something url-like -->
+  <xsl:variable name="before">
+   <xsl:choose>
+    <xsl:when test="contains($txt,'http://')">
+     <xsl:value-of select="substring-before($txt,'http://')" />
+    </xsl:when>
+    <xsl:when test="contains($txt,'https://')">
+     <xsl:value-of select="substring-before($txt,'https://')" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:value-of select="$txt" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:variable>
+  <!-- output the first part -->
+  <xsl:value-of select="$before" />
+  <!-- get the rest of the text -->
+  <xsl:variable name="rest" select="substring($txt,string-length($before)+1)" />
+  <!-- if there is a rest it's beginning is a URL -->
+  <xsl:if test="string-length($rest) &gt; 0">
+   <!-- get the url part -->
+   <xsl:variable name="url">
+    <xsl:choose>
+     <xsl:when test="contains($rest,' ')">
+      <xsl:value-of select="substring-before($rest,' ')" />
+     </xsl:when>
+     <xsl:otherwise>
+      <xsl:value-of select="$rest" />
+     </xsl:otherwise>
+    </xsl:choose>
+   </xsl:variable>
+   <!-- output the link -->
+   <a href="{$url}"><xsl:value-of select="$url" /></a>
+   <!-- parse the part after -->
+   <xsl:call-template name="urlstolinks">
+    <xsl:with-param name="txt" select="substring($rest,string-length($url)+1)" />
+   </xsl:call-template>
+  </xsl:if>
  </xsl:template>
 
 </xsl:stylesheet>
