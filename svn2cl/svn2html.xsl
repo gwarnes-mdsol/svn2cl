@@ -111,15 +111,13 @@
   <xsl:choose>
    <!-- if we're grouping we should omit some headers -->
    <xsl:when test="$groupbyday='yes'">
-    <!-- save log entry number -->
-    <xsl:variable name="pos" select="position()" />
     <!-- fetch previous entry's date -->
     <xsl:variable name="prevdate">
-     <xsl:apply-templates select="../logentry[position()=(($pos)-1)]/date" />
+     <xsl:apply-templates select="preceding-sibling::logentry[position()=1]/date" />
     </xsl:variable>
     <!-- fetch previous entry's author -->
     <xsl:variable name="prevauthor">
-     <xsl:value-of select="normalize-space(../logentry[position()=(($pos)-1)]/author)" />
+     <xsl:value-of select="normalize-space(preceding-sibling::logentry[position()=1]/author)" />
     </xsl:variable>
     <!-- fetch this entry's date -->
     <xsl:variable name="date">
