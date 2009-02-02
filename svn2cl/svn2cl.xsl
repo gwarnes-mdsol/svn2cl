@@ -306,10 +306,17 @@
      <xsl:if test="not(position()=1)">
       <xsl:text>,&space;</xsl:text>
      </xsl:if>
-     <!-- print the path name -->
-     <xsl:call-template name="printpath">
-      <xsl:with-param name="path" select="substring(normalize-space(.),string-length($strip-prefix)+3)" />
-     </xsl:call-template>
+     <!-- get path part -->
+     <xsl:variable name="tmpstrip3" select="substring(normalize-space(.),string-length($strip-prefix)+3)" />
+     <!-- translate empty string to dot and print result -->
+     <xsl:choose>
+      <xsl:when test="$tmpstrip3 = ''">
+       <xsl:text>.</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+       <xsl:value-of select="$tmpstrip3" />
+      </xsl:otherwise>
+     </xsl:choose>
      <!-- add the action flag -->
      <xsl:if test="$include-actions='yes'">
       <xsl:apply-templates select="." mode="action"/>
@@ -346,32 +353,6 @@
    <xsl:when test="@action='A'">
     <xsl:text>[ADD]</xsl:text>
    </xsl:when>
-  </xsl:choose>
- </xsl:template>
-
- <!-- transform path to something printable -->
- <xsl:template name="printpath">
-  <!-- fetch the pathname -->
-  <xsl:param name="path" />
-  <!-- strip leading slash -->
-  <xsl:variable name="tmp1">
-   <xsl:choose>
-    <xsl:when test="starts-with($path,'/')">
-     <xsl:value-of select="substring($path,2)" />
-    </xsl:when>
-    <xsl:otherwise>
-     <xsl:value-of select="$path" />
-    </xsl:otherwise>
-   </xsl:choose>
-  </xsl:variable>
-  <!-- translate empty string to dot -->
-  <xsl:choose>
-   <xsl:when test="$tmp1 = ''">
-    <xsl:text>.</xsl:text>
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:value-of select="$tmp1" />
-   </xsl:otherwise>
   </xsl:choose>
  </xsl:template>
 
