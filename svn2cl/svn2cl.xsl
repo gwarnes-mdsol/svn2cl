@@ -343,7 +343,7 @@
    <xsl:when test="@copyfrom-path">
     <xsl:text>[CPY]</xsl:text>
    </xsl:when>
-   <xsl:when test="@action='D'">
+   <xsl:when test="@action='A'">
     <xsl:text>[ADD]</xsl:text>
    </xsl:when>
   </xsl:choose>
