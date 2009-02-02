@@ -26,7 +26,7 @@
    that I was not completely happy with and some other common
    xslt constructs found on the web.
 
-   Copyright (C) 2004, 2005, 2006, 2007 Arthur de Jong.
+   Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -106,6 +106,20 @@
  <xsl:param name="authorsfile" select="''" />
  <xsl:key name="author-lookup" match="author" use="@uid" />
  <xsl:variable name="authors-top" select="document($authorsfile)/authors" />
+
+ <!-- determin the path part to strip -->
+ <xsl:variable name="strip-path">
+  <!-- if strip-prefix does not start with a slash, prepend it -->
+  <xsl:if test="not(starts-with($strip-prefix,'/'))">
+   <xsl:text>/</xsl:text>
+  </xsl:if>
+  <!-- the prefix itself -->
+  <xsl:value-of select="$strip-prefix" />
+  <!-- if strip-prefix does not start with a slash, append it -->
+  <xsl:if test="substring($strip-prefix,string-length($strip-prefix),1)!='/'">
+   <xsl:text>/</xsl:text>
+  </xsl:if>
+ </xsl:variable>
 
  <!-- match the topmost log entry -->
  <xsl:template match="log">
@@ -277,46 +291,20 @@
   <xsl:choose>
    <!-- only handle paths that begin with the path and strip the path -->
    <xsl:when test="$strip-prefix != ''">
-    <!-- if strip-prefix does not start with a slash, prepend it -->
-    <xsl:variable name="tmpstrip1">
-     <xsl:choose>
-      <xsl:when test="starts-with($strip-prefix,'/')">
-       <xsl:value-of select="$strip-prefix" />
-      </xsl:when>
-      <xsl:otherwise>
-       <xsl:value-of select="concat('/',$strip-prefix)" />
-      </xsl:otherwise>
-     </xsl:choose>
-    </xsl:variable>
-    <!-- strip trailing slash from strip-prefix -->
-    <xsl:variable name="tmpstrip2">
-     <xsl:choose>
-      <xsl:when test="substring($tmpstrip1,string-length($tmpstrip1),1)='/'">
-       <xsl:value-of select="substring($tmpstrip1,1,string-length($tmpstrip1)-1)" />
-      </xsl:when>
-      <xsl:otherwise>
-       <xsl:value-of select="$tmpstrip1" />
-      </xsl:otherwise>
-     </xsl:choose>
-    </xsl:variable>
     <!-- filter on all entries within directory -->
-    <xsl:for-each select="path[starts-with(concat(normalize-space(.),'/'),concat($tmpstrip2,'/'))]">
+    <xsl:for-each select="path[starts-with(concat(normalize-space(.),'/'),$strip-path)]">
      <xsl:sort select="normalize-space(.)" data-type="text" />
      <!-- unless we are the first entry, add a comma -->
      <xsl:if test="not(position()=1)">
       <xsl:text>,&space;</xsl:text>
      </xsl:if>
      <!-- get path part -->
-     <xsl:variable name="tmpstrip3" select="substring(normalize-space(.),string-length($strip-prefix)+3)" />
+     <xsl:variable name="path" select="substring(normalize-space(.),string-length($strip-path)+1)" />
      <!-- translate empty string to dot and print result -->
-     <xsl:choose>
-      <xsl:when test="$tmpstrip3 = ''">
-       <xsl:text>.</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-       <xsl:value-of select="$tmpstrip3" />
-      </xsl:otherwise>
-     </xsl:choose>
+     <xsl:if test="$path = ''">
+      <xsl:text>.</xsl:text>
+     </xsl:if>
+     <xsl:value-of select="$path" />
      <!-- add the action flag -->
      <xsl:if test="$include-actions='yes'">
       <xsl:apply-templates select="." mode="action"/>
