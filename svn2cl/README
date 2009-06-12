@@ -93,10 +93,10 @@ your working copy up to date with 'svn update' (non-recursive update will do)
 or pass --revision HEAD:1 as a parameter to svn2cl.sh.
 
 There will not be very frequent new releases but if there are they can be
-found at: http://ch.tudelft.nl/~arthur/svn2cl/
+found at: http://arthurdejong.org/svn2cl/
 
 FEEDBACK AND BUG REPORTS
 ========================
 
 If you have any questions about svn2cl or would like to report a bug please
-send an email to Arthur de Jong <arthur@ch.tudelft.nl>.
+send an email to Arthur de Jong <arthur@arthurdejong.org>.
