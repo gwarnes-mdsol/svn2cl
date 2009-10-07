@@ -3,7 +3,7 @@
 # svn2cl.sh - front end shell script for svn2cl.xsl, calls xsltproc
 #             with the correct parameters
 #
-# Copyright (C) 2005, 2006, 2007, 2008 Arthur de Jong.
+# Copyright (C) 2005, 2006, 2007, 2008, 2009 Arthur de Jong.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -36,7 +36,7 @@ set -e
 set -u
 
 # svn2cl version
-VERSION="0.11"
+VERSION="0.12"
 
 # set default parameters
 PWD=`pwd`
@@ -201,7 +201,7 @@ do
       echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
       echo ""
-      echo "Copyright (C) 2005, 2006, 2007 Arthur de Jong."
+      echo "Copyright (C) 2005, 2006, 2007, 2008, 2009 Arthur de Jong."
       echo "This is free software; see the source for copying conditions.  There is NO"
       echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
       exit 0
