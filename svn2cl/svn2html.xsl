@@ -47,11 +47,6 @@
 
 -->
 
-<!DOCTYPE xsl:stylesheet [
- <!ENTITY newl "&#38;#xA;">
- <!ENTITY space "&#32;">
-]>
-
 <xsl:stylesheet
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -132,7 +127,7 @@
      <li class="changelog_entry">
       <!-- date -->
       <span class="changelog_date"><xsl:value-of select="$date" /></span>
-      <xsl:text>&space;</xsl:text>
+      <xsl:text>&#32;</xsl:text>
       <!-- author's name -->
       <span class="changelog_author"><xsl:apply-templates select="author" /></span>
      </li>
@@ -143,7 +138,7 @@
     <li class="changelog_entry">
      <!-- date -->
      <span class="changelog_date"><xsl:apply-templates select="date" /></span>
-     <xsl:text>&space;</xsl:text>
+     <xsl:text>&#32;</xsl:text>
      <!-- author's name -->
      <span class="changelog_author"><xsl:apply-templates select="author" /></span>
     </li>
@@ -165,10 +160,10 @@
    <span class="changelog_revision">
     <a id="r{@revision}" href="{$revlink}">[r<xsl:value-of select="@revision" />]</a>
    </span>
-   <xsl:text>&space;</xsl:text>
+   <xsl:text>&#32;</xsl:text>
    <!-- get paths string -->
    <span class="changelog_files"><xsl:apply-templates select="paths" /></span>
-   <xsl:text>&space;</xsl:text>
+   <xsl:text>&#32;</xsl:text>
    <!-- get message text -->
    <xsl:variable name="msg">
     <xsl:call-template name="trim-newln">
@@ -192,14 +187,14 @@
  <xsl:template name="newlinestobr">
   <xsl:param name="txt" />
   <xsl:choose>
-   <xsl:when test="contains($txt,'&newl;')">
+   <xsl:when test="contains($txt,'&#10;')">
     <!-- text contains newlines, do the first line -->
-    <xsl:value-of select="substring-before($txt,'&newl;')" />
+    <xsl:value-of select="substring-before($txt,'&#10;')" />
     <!-- print new line -->
     <br />
     <!-- wrap the rest of the text -->
     <xsl:call-template name="newlinestobr">
-     <xsl:with-param name="txt" select="substring-after($txt,'&newl;')" />
+     <xsl:with-param name="txt" select="substring-after($txt,'&#10;')" />
     </xsl:call-template>
    </xsl:when>
    <xsl:otherwise>
