@@ -170,14 +170,9 @@
      <xsl:with-param name="txt" select="msg" />
     </xsl:call-template>
    </xsl:variable>
-   <xsl:variable name="msg2">
+   <span class="changelog_message">
     <xsl:call-template name="newlinestobr">
      <xsl:with-param name="txt" select="$msg" />
-    </xsl:call-template>
-   </xsl:variable>
-   <span class="changelog_message">
-    <xsl:call-template name="urlstolinks">
-     <xsl:with-param name="txt" select="$msg2" />
     </xsl:call-template>
    </span>
   </li>
@@ -189,7 +184,9 @@
   <xsl:choose>
    <xsl:when test="contains($txt,'&#10;')">
     <!-- text contains newlines, do the first line -->
-    <xsl:value-of select="substring-before($txt,'&#10;')" />
+    <xsl:call-template name="urlstolinks">
+     <xsl:with-param name="txt" select="substring-before($txt,'&#10;')" />
+    </xsl:call-template>
     <!-- print new line -->
     <br />
     <!-- wrap the rest of the text -->
