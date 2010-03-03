@@ -14,6 +14,8 @@
                 ++stringparam authorsfile FILE \
                 ++stringparam title NAME \
                 ++stringparam revision-link NAME \
+                ++stringparam ticket-link NAME \
+                ++stringparam ticket-prefix NAME \
                 svn2html.xsl - > ChangeLog.html
 
    This file is partially based on (and includes) svn2cl.xsl.
@@ -70,6 +72,12 @@
 
  <!-- link to use for linking revision numbers -->
  <xsl:param name="revision-link" select="'#r'" />
+
+ <!-- link to use for linking ticket numbers -->
+ <xsl:param name="ticket-link" select="''" />
+
+ <!-- string to search for as prefix to ticket ID to use for linking ticket numbers -->
+ <xsl:param name="ticket-prefix" select="'#'" />
 
  <!-- match toplevel element -->
  <xsl:template match="log">
@@ -207,6 +215,12 @@
      <xsl:with-param name="txt" select="$txt" />
     </xsl:call-template>
    </xsl:when>
+   <!-- perform ticket highlighting -->
+   <xsl:when test="string-length($ticket-link) &gt; 0 and contains($txt,$ticket-prefix)">
+    <xsl:call-template name="ticketstolinks">
+     <xsl:with-param name="txt" select="$txt" />
+    </xsl:call-template>
+   </xsl:when>
    <!-- there does not seem to be anything parseable left -->
    <xsl:otherwise>
     <xsl:value-of select="$txt" />
@@ -255,6 +269,48 @@
    <!-- parse the part after -->
    <xsl:call-template name="formatmessage">
     <xsl:with-param name="txt" select="substring($rest,string-length($url)+1)" />
+   </xsl:call-template>
+  </xsl:if>
+ </xsl:template>
+
+ <!-- template to replace ticket references with links -->
+ <xsl:template name="ticketstolinks">
+  <xsl:param name="txt" />
+  <!-- see if the string contains that looks like a ticket reference -->
+  <xsl:variable name="before">
+   <xsl:choose>
+    <xsl:when test="contains($txt,$ticket-prefix)">
+     <xsl:value-of select="substring-before($txt,$ticket-prefix)" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:value-of select="$txt" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:variable>
+  <!-- output the first part -->
+  <xsl:call-template name="formatmessage">
+   <xsl:with-param name="txt" select="$before" />
+  </xsl:call-template>
+  <!-- get the rest of the text -->
+  <xsl:variable name="rest" select="substring($txt,string-length($before)+1)" />
+  <!-- if there is a rest it's beginning is a ticket reference -->
+  <xsl:if test="string-length($rest) &gt; 0">
+   <!-- get the ticket part -->
+   <xsl:variable name="ticket">
+    <xsl:choose>
+     <xsl:when test="contains($rest,' ')">
+      <xsl:value-of select="substring-after(substring-before($rest,' '),$ticket-prefix)" />
+     </xsl:when>
+     <xsl:otherwise>
+      <xsl:value-of select="substring-after($rest,$ticket-prefix)" />
+     </xsl:otherwise>
+    </xsl:choose>
+   </xsl:variable>
+   <!-- output the link -->
+   <a href="{$ticket-link}{$ticket}"><xsl:value-of select="$ticket-prefix" /><xsl:value-of select="$ticket" /></a>
+   <!-- parse the part after -->
+   <xsl:call-template name="formatmessage">
+    <xsl:with-param name="txt" select="substring($rest,string-length($ticket-prefix)+string-length($ticket)+1)" />
    </xsl:call-template>
   </xsl:if>
  </xsl:template>
