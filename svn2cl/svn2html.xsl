@@ -18,7 +18,7 @@
 
    This file is partially based on (and includes) svn2cl.xsl.
 
-   Copyright (C) 2005, 2006, 2007, 2009 Arthur de Jong.
+   Copyright (C) 2005, 2006, 2007, 2009, 2010 Arthur de Jong.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -171,44 +171,47 @@
     </xsl:call-template>
    </xsl:variable>
    <span class="changelog_message">
-    <xsl:call-template name="newlinestobr">
+    <xsl:call-template name="formatmessage">
      <xsl:with-param name="txt" select="$msg" />
     </xsl:call-template>
    </span>
   </li>
  </xsl:template>
 
- <!-- template to replace line breaks with <br /> tags -->
- <xsl:template name="newlinestobr">
+ <!-- template to do formatting of log message -->
+ <xsl:template name="formatmessage">
   <xsl:param name="txt" />
   <xsl:choose>
+   <!-- perform newline-to-br transformation -->
    <xsl:when test="contains($txt,'&#10;')">
     <!-- text contains newlines, do the first line -->
-    <xsl:call-template name="logline">
+    <xsl:call-template name="formatmessage">
      <xsl:with-param name="txt" select="substring-before($txt,'&#10;')" />
     </xsl:call-template>
     <!-- print new line -->
     <br />
-    <!-- wrap the rest of the text -->
-    <xsl:call-template name="newlinestobr">
+    <!-- do the rest of the text -->
+    <xsl:call-template name="formatmessage">
      <xsl:with-param name="txt" select="substring-after($txt,'&#10;')" />
     </xsl:call-template>
    </xsl:when>
-   <xsl:otherwise>
-    <xsl:call-template name="logline">
+   <!-- perform url highlighting -->
+   <xsl:when test="contains($txt,'http://')">
+    <xsl:call-template name="urlstolinks">
      <xsl:with-param name="txt" select="$txt" />
     </xsl:call-template>
+   </xsl:when>
+   <!-- perform url highlighting -->
+   <xsl:when test="contains($txt,'https://')">
+    <xsl:call-template name="urlstolinks">
+     <xsl:with-param name="txt" select="$txt" />
+    </xsl:call-template>
+   </xsl:when>
+   <!-- there does not seem to be anything parseable left -->
+   <xsl:otherwise>
+    <xsl:value-of select="$txt" />
    </xsl:otherwise>
   </xsl:choose>
- </xsl:template>
-
- <!-- template to perform highlighting on a single line -->
- <xsl:template name="logline">
-  <xsl:param name="txt" />
-  <!-- perform url highlighting -->
-  <xsl:call-template name="urlstolinks">
-   <xsl:with-param name="txt" select="$txt" />
-  </xsl:call-template>
  </xsl:template>
 
  <!-- template to replace url-like strings with links -->
@@ -229,7 +232,9 @@
    </xsl:choose>
   </xsl:variable>
   <!-- output the first part -->
-  <xsl:value-of select="$before" />
+  <xsl:call-template name="formatmessage">
+   <xsl:with-param name="txt" select="$before" />
+  </xsl:call-template>
   <!-- get the rest of the text -->
   <xsl:variable name="rest" select="substring($txt,string-length($before)+1)" />
   <!-- if there is a rest it's beginning is a URL -->
@@ -248,7 +253,7 @@
    <!-- output the link -->
    <a href="{$url}"><xsl:value-of select="$url" /></a>
    <!-- parse the part after -->
-   <xsl:call-template name="urlstolinks">
+   <xsl:call-template name="formatmessage">
     <xsl:with-param name="txt" select="substring($rest,string-length($url)+1)" />
    </xsl:call-template>
   </xsl:if>
