@@ -1,3 +1,18 @@
+2010-03-03 19:54  arthur
+
+	* [r139] svn2html.xsl: also perform correct line-highlighing for
+	  last line
+
+2009-11-22 12:48  arthur
+
+	* [r138] svn2html.xsl: call urlstolinks on every line separately
+	  because we cannot store tags inside a variable
+
+2009-10-07 20:36  arthur
+
+	* [r136] ChangeLog, NEWS, README, svn2cl.1, svn2cl.sh, svn2cl.xsl,
+	  svn2html.xsl: get files ready for 0.12 release
+
 2009-10-07 20:31  arthur
 
 	* [r135] svn2html.css: trim trailing whitespace
