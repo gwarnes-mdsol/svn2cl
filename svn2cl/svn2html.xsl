@@ -184,7 +184,7 @@
   <xsl:choose>
    <xsl:when test="contains($txt,'&#10;')">
     <!-- text contains newlines, do the first line -->
-    <xsl:call-template name="urlstolinks">
+    <xsl:call-template name="logline">
      <xsl:with-param name="txt" select="substring-before($txt,'&#10;')" />
     </xsl:call-template>
     <!-- print new line -->
@@ -195,9 +195,20 @@
     </xsl:call-template>
    </xsl:when>
    <xsl:otherwise>
-    <xsl:value-of select="$txt" />
+    <xsl:call-template name="logline">
+     <xsl:with-param name="txt" select="$txt" />
+    </xsl:call-template>
    </xsl:otherwise>
   </xsl:choose>
+ </xsl:template>
+
+ <!-- template to perform highlighting on a single line -->
+ <xsl:template name="logline">
+  <xsl:param name="txt" />
+  <!-- perform url highlighting -->
+  <xsl:call-template name="urlstolinks">
+   <xsl:with-param name="txt" select="$txt" />
+  </xsl:call-template>
  </xsl:template>
 
  <!-- template to replace url-like strings with links -->
