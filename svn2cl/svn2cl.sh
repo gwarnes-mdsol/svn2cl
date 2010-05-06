@@ -61,7 +61,7 @@ TMPFILES=""
 AWK="awk"
 
 # do command line checking
-prog=`basename $0`
+prog=`basename "$0"`
 while [ $# -gt 0 ]
 do
   case "$1" in
