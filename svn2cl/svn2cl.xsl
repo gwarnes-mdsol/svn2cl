@@ -421,7 +421,7 @@
      <xsl:with-param name="txt" select="substring($txt,1,string-length($txt)-1)" />
     </xsl:call-template>
    </xsl:when>
-   <!-- if the message has paragrapgs, find the first one -->
+   <!-- if the message has paragraphs, find the first one -->
    <xsl:when test="$reparagraph='yes' and contains($txt,'&#10;&#10;')">
      <!-- remove newlines from first paragraph -->
      <xsl:value-of select="normalize-space(substring-before($txt,'&#10;&#10;'))" />
