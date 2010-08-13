@@ -166,43 +166,40 @@ do
       OUTSTYLE="html"
       shift
       ;;
-    -r|--revision|--targets|--limit)
-      # add these as extra options to the command (with argument)
+    -r|--revision|-c|--change|--targets|-l|--limit)
+      # add these as extra options to the log command (with argument)
       arg=`echo "$2" | sed "s/'/'\"'\"'/g"`
       SVNLOGCMD="$SVNLOGCMD $1 '$arg'"
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
-    --username|--password|--config-dir)
-      # add these as extra options to the command (with argument)
+    --revision=*|--change=*|--targets=*|--limit=*)
+      # these are single argument versions of the above (with argument)
+      arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
+      SVNLOGCMD="$SVNLOGCMD '$arg'"
+      shift
+      ;;
+    --username|--password|--config-dir|--config-option)
+      # add these as extra options to the log and info commands (with argument)
       arg=`echo "$2" | sed "s/'/'\"'\"'/g"`
       SVNLOGCMD="$SVNLOGCMD $1 '$arg'"
-      # also add to svn info command
       SVNINFOCMD="$SVNINFOCMD $1 '$arg'"
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
-    --revision=*|--targets=*|--limit=*)
-      # these are single argument versions of the above
+    --username=*|--password=*|--config-dir=*|--config-option=*)
+      # these are single argument versions of the above (with argument)
       arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
       SVNLOGCMD="$SVNLOGCMD '$arg'"
-      shift
-      ;;
-    --username=*|--password=*|--config-dir=*)
-      # these are single argument versions of the above
-      arg=`echo "$1" | sed "s/'/'\"'\"'/g"`
-      SVNLOGCMD="$SVNLOGCMD '$arg'"
-      # also add to svn info command
       SVNINFOCMD="$SVNINFOCMD '$arg'"
       shift
       ;;
-    --stop-on-copy)
-      # add these as simple options
+    -g|--use-merge-history|--stop-on-copy)
+      # add these as simple options to the log command
       SVNLOGCMD="$SVNLOGCMD $1"
       shift
       ;;
-    --no-auth-cache|--non-interactive)
-      # add these as simple options
+    --no-auth-cache|--non-interactive|--trust-server-cert)
+      # add these as simple options to both the log and info commands
       SVNLOGCMD="$SVNLOGCMD $1"
-      # also add to svn info command
       SVNINFOCMD="$SVNINFOCMD $1"
       shift
       ;;
@@ -219,8 +216,8 @@ do
       echo "Usage: $prog [OPTION]... [PATH]..."
       echo "Generate a ChangeLog from a subversion repository."
       echo ""
-      echo "  --strip-prefix=NAME  prefix to strip from all entries, defaults"
-      echo "                       path inside the repository"
+      echo "  --strip-prefix=NAME  prefix to strip from all entries, defaults path"
+      echo "                       inside the repository"
       echo "  --linelen=NUM        maximum length of an output line"
       echo "  --group-by-day       group changelog entries by day"
       echo "  --separate-daylogs   put a blank line between grouped by day entries"
@@ -243,9 +240,10 @@ do
       echo "  -V, --version        output version information and exit"
       echo ""
       echo "PATH arguments and the following options are passed to the svn log"
-      echo "command: -r, --revision, --targets --stop-on-copy, --username,"
-      echo "--password, --no-auth-cache, --non-interactive, --config-dir and"
-      echo "--limit (see 'svn help log' for more information)."
+      echo "command: -r, --revision, -g, --use-merge-history, -c, --change,"
+      echo "--targets, --stop-on-copy, -l, --username, --password, --no-auth-cache,"
+      echo "--non-interactive, --trust-server-cert, --config-dir and --config-option"
+      echo "(see 'svn help log' for more information)."
       exit 0
       ;;
     -*)
