@@ -1,3 +1,32 @@
+2010-08-13 09:39  arthur
+
+	* [r145] svn2cl.sh: also pass -g, --use-merge-history, -c,
+	  --change, -l, --trust-server-cert and --config-option to svn
+	  commands
+
+2010-08-13 08:07  arthur
+
+	* [r144] README: direct bugreports to the svn2cl-users mailing list
+
+2010-08-13 07:24  arthur
+
+	* [r143] svn2cl.xsl: fix typo in comment
+
+2010-05-06 21:11  arthur
+
+	* [r142] svn2cl.sh: properly quote $0 (thanks Vincent Lefevre)
+
+2010-03-03 21:02  arthur
+
+	* [r141] ChangeLog, svn2cl.1, svn2cl.sh, svn2html.xsl: implement
+	  ticket-highlighting with a --ticket-link option, based on a patch
+	  by Neil Whitworth <NeilWhitworth@commontime.com>
+
+2010-03-03 20:55  arthur
+
+	* [r140] svn2html.xsl: switch to a mechanism to more easily perform
+	  more message log highlighting
+
 2010-03-03 19:54  arthur
 
 	* [r139] svn2html.xsl: also perform correct line-highlighing for

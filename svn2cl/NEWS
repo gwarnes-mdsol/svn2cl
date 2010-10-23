@@ -1,3 +1,14 @@
+changes from 0.12 to 0.13
+-------------------------
+
+* add a --ticket-link option for the HTML output that replaces anything
+  that looks like a ticket reference (e.g. #123) with a link (thanks Neil
+  Whitworth)
+* properly quote $0 in shell script (thanks Vincent Lefevre)
+* also pass through -g, --use-merge-history, -c, --change, -l,
+  --trust-server-cert and --config-option options to svn log command
+
+
 changes from 0.11 to 0.12
 -------------------------
 
