@@ -109,7 +109,7 @@
   </xsl:if>
   <!-- the prefix itself -->
   <xsl:value-of select="$strip-prefix" />
-  <!-- if strip-prefix does not start with a slash, append it -->
+  <!-- if strip-prefix does not end with a slash, append it -->
   <xsl:if test="substring($strip-prefix,string-length($strip-prefix),1)!='/'">
    <xsl:text>/</xsl:text>
   </xsl:if>
