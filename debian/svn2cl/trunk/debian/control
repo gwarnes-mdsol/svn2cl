@@ -12,6 +12,8 @@ Package: svn2cl
 Architecture: all
 Depends: subversion (>= 1.5), ${misc:Depends}, ${shlibs:Depends}, xsltproc
 Breaks: subversion-tools (<< 1.7.5-1)
-Description: Generate GNU-style changelog from svn repository history
- This tool uses an xsl stylesheet for generating a classic GNU-style
- ChangeLog from a Subversion repository log.
+Description: Generate a GNU-style ChangeLog from Subversion repository history
+ This tool generates a classic GNU-style ChangeLog from the log messages
+ in a Subversion repository. It works as a wrapper around the 'svn log'
+ command, parsing the XML output with an XSLT stylesheet. Alternatively it
+ can generate HTML output.
