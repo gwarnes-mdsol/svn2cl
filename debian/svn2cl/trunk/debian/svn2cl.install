@@ -1,0 +1,4 @@
+svn2cl.sh usr/bin
+*.xml etc/svn2cl
+*.xsl etc/svn2cl
+*.css etc/svn2cl
