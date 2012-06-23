@@ -1,2 +1,2 @@
 version=3
-http://arthurdejong.org/svn2cl/svn2cl-(\d+)\.(\d+)\.tar\.gz
+http://arthurdejong.org/svn2cl/downloads.html svn2cl-([\d\.]*).tar.gz
