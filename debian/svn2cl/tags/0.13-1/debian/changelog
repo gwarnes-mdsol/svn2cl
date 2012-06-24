@@ -1,0 +1,5 @@
+svn2cl (0.13-1) unstable; urgency=low
+
+  * Initial release. (Closes: #678676, #678664)
+
+ -- Arthur de Jong <adejong@debian.org>  Sun, 24 Jun 2012 14:29:24 +0200
