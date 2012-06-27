@@ -1,3 +1,10 @@
+svn2cl (0.13-2) UNRELEASED; urgency=low
+
+  * Add replaces on subversion-tools since we are replacing /usr/bin/svn2cl
+    which was in subversion-tools before.
+
+ -- Arthur de Jong <adejong@debian.org>  Wed, 27 Jun 2012 19:27:58 +0200
+
 svn2cl (0.13-1) unstable; urgency=low
 
   * Initial release. (Closes: #678676, #678664)
