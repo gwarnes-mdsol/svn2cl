@@ -57,6 +57,7 @@ IGNORE_MESSAGE_STARTING=""
 TITLE="ChangeLog"
 REVISION_LINK="#r"
 TICKET_LINK=""
+TICKET_PREFIX="#"
 TMPFILES=""
 AWK="awk"
 
@@ -132,6 +133,14 @@ do
       ;;
     --ticket-link=*)
       TICKET_LINK=`echo "$1" | sed 's/^--[a-z-]*=//'`
+      shift
+      ;;
+    --ticket-prefix)
+      TICKET_PREFIX="$2"
+      shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
+      ;;
+    --ticket-prefix=*)
+      TICKET_PREFIX=`echo "$1" | sed 's/^--[a-z-]*=//'`
       shift
       ;;
     --ignore-message-starting)
@@ -330,6 +339,7 @@ eval "$SVNLOGCMD" | \
            --stringparam title "$TITLE" \
            --stringparam revision-link "$REVISION_LINK" \
            --stringparam ticket-link "$TICKET_LINK" \
+           --stringparam ticket-prefix "$TICKET_PREFIX" \
            --stringparam ignore-message-starting "$IGNORE_MESSAGE_STARTING" \
            --nowrite \
            --nomkdir \
