@@ -3,7 +3,7 @@
 # svn2cl.sh - front end shell script for svn2cl.xsl, calls xsltproc
 #             with the correct parameters
 #
-# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Arthur de Jong.
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2013 Arthur de Jong
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -127,7 +127,7 @@ do
       shift
       ;;
     --ticket-link)
-      TICKET_LINKK="$2"
+      TICKET_LINK="$2"
       shift 2 || { echo "$prog: option requires an argument -- $1";exit 1; }
       ;;
     --ticket-link=*)
