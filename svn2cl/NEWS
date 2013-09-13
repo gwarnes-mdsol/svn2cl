@@ -1,3 +1,11 @@
+changes from 0.13 to 0.14
+-------------------------
+
+* fix a bug in the handling of the  --ticket-link option (thanks Gaute Lote)
+* expose the --ticket-prefix option in the shell script wrapper (thanks Gaute
+  Lote)
+
+
 changes from 0.12 to 0.13
 -------------------------
 

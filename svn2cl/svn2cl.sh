@@ -36,7 +36,7 @@ set -e
 set -u
 
 # svn2cl version
-VERSION="0.13"
+VERSION="0.14"
 
 # set default parameters
 PWD=`pwd`
@@ -216,7 +216,7 @@ do
       echo "$prog $VERSION";
       echo "Written by Arthur de Jong."
       echo ""
-      echo "Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Arthur de Jong."
+      echo "Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2013 Arthur de Jong."
       echo "This is free software; see the source for copying conditions.  There is NO"
       echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
       exit 0
