@@ -1,0 +1,23 @@
+svn2cl (0.14-1) unstable; urgency=low
+
+  * New upstream release:
+    - fix a bug in the handling of the --ticket-link option (thanks Gaute
+      Lote)
+    - expose the --ticket-prefix option in the shell script wrapper (thanks
+      GauteLote)
+  * Upgrade to standards-version 3.9.4 (no changes needed)
+
+ -- Arthur de Jong <adejong@debian.org>  Fri, 13 Sep 2013 23:48:26 +0200
+
+svn2cl (0.13-2) unstable; urgency=low
+
+  * Add replaces on subversion-tools since we are replacing /usr/bin/svn2cl
+    which was in subversion-tools before.
+
+ -- Arthur de Jong <adejong@debian.org>  Thu, 28 Jun 2012 21:40:55 +0200
+
+svn2cl (0.13-1) unstable; urgency=low
+
+  * Initial release. (Closes: #678676, #678664)
+
+ -- Arthur de Jong <adejong@debian.org>  Sun, 24 Jun 2012 14:29:24 +0200
