@@ -5,6 +5,7 @@ svn2cl (0.14-1) UNRELEASED; urgency=low
       Lote)
     - expose the --ticket-prefix option in the shell script wrapper (thanks
       GauteLote)
+  * Upgrade to standards-version 3.9.4 (no changes needed)
 
  -- Arthur de Jong <adejong@debian.org>  Fri, 13 Sep 2013 23:38:07 +0200
 
