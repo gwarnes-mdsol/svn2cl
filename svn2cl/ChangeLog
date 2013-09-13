@@ -1,3 +1,22 @@
+2013-03-06 20:56  arthur
+
+	* [r159] svn2cl.1, svn2cl.sh: also expose the --ticket-prefix
+	  option in the shell script wrapper (thanks Gaute Lote)
+
+2013-03-06 20:40  arthur
+
+	* [r158] svn2cl.sh: fix typo in handling of --ticket-link option
+	  (thanks Gaute Lote)
+
+2011-03-27 17:30  arthur
+
+	* [r148] svn2cl.xsl: fix typo
+
+2010-10-23 11:59  arthur
+
+	* [r146] ChangeLog, NEWS, README, svn2cl.1, svn2cl.sh, svn2cl.xsl,
+	  svn2html.xsl: get files ready for 0.13 release
+
 2010-08-13 09:39  arthur
 
 	* [r145] svn2cl.sh: also pass -g, --use-merge-history, -c,
